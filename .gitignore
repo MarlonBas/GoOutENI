@@ -20,3 +20,5 @@
 ###< symfony/phpunit-bridge ###
 
 /.idea
+/.idea/workspace.xml
+/.idea/php.xml
