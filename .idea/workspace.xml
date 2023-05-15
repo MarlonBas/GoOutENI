@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fe1a438-63e2-4412-8ac0-c2d83daf5e45" name="Changes" comment="ChangementVersionPHP">
+    <list default="true" id="6fe1a438-63e2-4412-8ac0-c2d83daf5e45" name="Changes" comment="testCommit + fichier de conf php storm">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -83,7 +84,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1684142414316</updated>
-      <workItem from="1684142415321" duration="3711000" />
+      <workItem from="1684142415321" duration="4570000" />
     </task>
     <task id="LOCAL-00001" summary="Un autre commit ?...">
       <created>1684143238006</created>
@@ -99,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684145070406</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="testCommit + fichier de conf php storm">
+      <created>1684152444739</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1684152444739</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -119,6 +127,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Un autre commit ?..." />
     <MESSAGE value="ChangementVersionPHP" />
-    <option name="LAST_COMMIT_MESSAGE" value="ChangementVersionPHP" />
+    <MESSAGE value="testCommit + fichier de conf php storm" />
+    <option name="LAST_COMMIT_MESSAGE" value="testCommit + fichier de conf php storm" />
   </component>
 </project>
