@@ -19,5 +19,4 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-workspace.xml
-php.xml
+/.idea
