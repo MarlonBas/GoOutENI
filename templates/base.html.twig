@@ -2,18 +2,46 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Go Out !{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+        <link rel="stylesheet" href="{{ asset('css/app.css')}}">
         {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
+
     <body>
+
+    <div class="container">
+
+        <header>
+            <div class="container">
+                <div class="header-top">
+
+                    <h1 class="header-logo">
+                        <a href="{{ path('main_home') }}" title="Go back to homepage">
+                            <img src="{{ asset('img/logo.png') }}" alt="Go out Logo">
+                        </a>
+                    </h1>{% include('inc/nav.html.twig') %}
+
+                </div>
+
+            </div>
+        </header>
+        <main>
         {% block body %}{% endblock %}
+        </main>
+
+    {# pied-de-page du site #}
+    <footer>
+        <div class="container">
+            © Go out ! (project) {{ "now"|date("Y") }}
+        </div>
+    </footer>
     </body>
 </html>

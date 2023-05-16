@@ -1,0 +1,66 @@
+body {
+    color: #000000;
+    font-family: 'Calibri', serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+
+
+}
+.container {
+    margin-left: 15rem;
+    max-width: 1200px;
+
+}
+header h1 {
+    margin-left: 15rem;
+    margin: 0 0 10px 0;
+    flex: 2;
+    margin-left: 0rem ;
+}
+.header-logo {
+    font-size: 3rem;
+    font-weight: normal;
+}
+
+header a {
+    text-decoration: none;
+    color: tomato;
+}
+header nav a:hover {
+    text-decoration: underline;
+}
+.header-logo img {
+    max-width: 250px;
+}
+
+.header-top {
+    display:flex;
+    justify-content: left;
+
+
+}
+footer{
+    background-color:tomato;
+    text-align: center;
+    padding: 2rem 0;
+
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+}
+
+nav li {
+    margin-right: 1rem;
+}
+
+main {
+    flex: 1;
+    padding: 1rem 0;
+    background-color: #FFF1E6;
+}
