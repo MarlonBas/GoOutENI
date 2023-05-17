@@ -2,9 +2,13 @@
     <ul>
         <li> <a href="#" title="villes">Villes</a></li>
         <li> <a href="#" title="Campus">Campus</a></li>
-        <li> <a href="#" title="Accueil">Accueil</a></li>
-        <li><a href="#" title="Profil">Mon profil</a></li>
-        <li><a href="#" title="Deconnection">Se déconnecter</a></li>
+        <li> <a href="{{ path('main_home') }}" title="Accueil">Accueil</a></li>
+        {% if(app.user) %}
+        <li><a href="{{ path('app_logout') }}" title="Deconnection">Se déconnecter</a></li>
+        <li><a href="{{ path('user_monprofil', {'id': app.user.id}) }}" title="Profil">Mon profil</a></li>
+        {% else %}
+        <li><a href=" {{ path('app_login') }}" title="Connexion">Se connecter</a></li>
+        {% endif %}
 
     </ul>
 </nav>
