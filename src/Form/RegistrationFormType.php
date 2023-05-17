@@ -24,8 +24,6 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('roles', ChoiceType::class, [ 'choices'=> ['ROLE_USER'=> 'ROLE_USER', 'ROLE_ORGA'=>'ROLE_ORGA', 'ROLE_ADMIN'=>'ROLE_ADMIN']])
-
-
             ->add('nom', TextType::class, ['label'=>'Nom', 'required'=>'true'])
             ->add('prenom', TextType::class, ['label'=>'Prenom', 'required'=>'true'])
             ->add('pseudo', TextType::class, ['label'=>'Pseudo', 'required'=>'true'])
