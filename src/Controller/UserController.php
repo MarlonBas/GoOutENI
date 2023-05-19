@@ -37,4 +37,11 @@ class UserController extends AbstractController
                         );
     }
 
+    /**
+     * @Route("/user/{id}", name="user_monprofil", requirements={"id"="\d+"})
+     */
+    public function afficher(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    {
+        return $this->render();
+    }
 }

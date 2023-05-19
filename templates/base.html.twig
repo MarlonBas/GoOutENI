@@ -4,15 +4,37 @@
         <meta charset="UTF-8">
         <title>{% block title %}Go Out !{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        <link rel="stylesheet" href="{{ asset('css/app.css')}}">
-        {% endblock %}
+        <!--====== Title ======-->
+        <title>404 Page | ClassiList Classified Ads Template</title>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+        <!--====== Animate CSS ======-->
+        <link rel="stylesheet" href="{{ asset('css/classilist-free-lite/assets/css/animate.css')}}">
+
+        <!--====== Tiny slider CSS ======-->
+        <link rel="stylesheet" href="{{ asset('css/classilist-free-lite/assets/css/tiny-slider.css')}}">
+
+        <!--====== glightbox CSS ======-->
+        <link rel="stylesheet" href="{{ asset('css/classilist-free-lite/assets/css/glightbox.min.css')}}">
+
+        <!--====== Line Icons CSS ======-->
+        <link rel="stylesheet" href="{{ asset('css/classilist-free-lite/assets/css/LineIcons.2.0.css')}}">
+
+        <!--====== Selectr CSS ======-->
+        <link rel="stylesheet" href="{{ asset('css/classilist-free-lite/assets/css/selectr.css')}}">
+
+        <!--====== Nouislider CSS ======-->
+        <link rel="stylesheet" href="{{ asset('css/classilist-free-lite/assets/css/nouislider.css')}}">
+
+        <!--====== Bootstrap CSS ======-->
+        <link rel="stylesheet" href="{{ asset('css/classilist-free-lite/assets/css/bootstrap-5.0.5-alpha.min.css')}}">
+
+        <!--====== Style CSS ======-->
+        <link rel="stylesheet" href="{{ asset('css/classilist-free-lite/assets/css/style.css')}}">
     </head>
 
     <body>
@@ -45,5 +67,26 @@
             © Go out ! (project) {{ "now"|date("Y") }}
         </div>
     </footer>
+    </div>
+    <!--====== Bootstrap js ======-->
+    <script src="{{ asset('css/classilist-free-lite/assets/js/bootstrap.bundle-5.0.0.alpha-min.js')}}"></script>
+
+    <!--====== Tiny slider js ======-->
+    <script src="{{ asset('css/classilist-free-lite/assets/js/tiny-slider.js')}}"></script>
+
+    <!--====== wow js ======-->
+    <script src="{{ asset('css/classilist-free-lite/assets/js/wow.min.js')}}"></script>
+
+    <!--====== glightbox js ======-->
+    <script src="{{ asset('css/classilist-free-lite/assets/js/glightbox.min.js')}}"></script>
+
+    <!--====== Selectr js ======-->
+    <script src="{{ asset('css/classilist-free-lite/assets/js/selectr.min.js')}}"></script>
+
+    <!--====== Nouislider js ======-->
+    <script src="{{ asset('css/classilist-free-lite/assets/js/nouislider.js')}}"></script>
+
+    <!--====== Main js ======-->
+    <script src="{{ asset('css/classilist-free-lite/assets/js/main.js')}}"></script>
     </body>
 </html>
