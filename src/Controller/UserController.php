@@ -15,12 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/users", name="app_user")
+     * @Route("/users", name="liste_users")
      */
-    public function index(): Response
+    public function listeparticipants(ParticipantRepository $participantRepository): Response
     {
-        return $this->render('user/monprofil.html.twig', [
-            'controller_name' => 'UserController',
+        $users = $participantRepository->findAll();
+        return $this->render('user/listeparticipants.html.twig', ['users'=> $users
         ]);
     }
     /**
@@ -38,10 +38,14 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}", name="user_monprofil", requirements={"id"="\d+"})
+     * @Route("/user/participant/{id}", name="user_profil_participant", requirements={"id"="\d+"})
      */
-    public function afficher(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    public function afficherProfil(int $id, ParticipantRepository $participantRepository): Response
     {
-        return $this->render();
+        $user= $participantRepository->find($id);
+        if (!$user) {
+            throw $this->createNotFoundException("oh no!!!, ce participant n'existe pas");
+        }
+        return $this -> render('user/profilparticipant.html.twig', ['user' => $user]);
     }
 }
