@@ -8,7 +8,7 @@
         <li><a href="{{ path('app_logout') }}" title="Deconnection">Se déconnecter</a></li>
         <li><a href="{{ path('user_monprofil', {'id': app.user.id}) }}" title="Profil">Mon profil</a></li>
 
-                {% if(is_granted('ROLE_SUPER_ADMIN')) %}
+                {% if(is_granted('ROLE_ADMIN')) %}
 
                     <li><a href="{{ path('app_admin_register')}}" title="Inscrire">Inscrire</a></li>
 
