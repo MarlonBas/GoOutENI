@@ -1,0 +1,24 @@
+{% extends '../../../base.html.twig' %}
+
+{% block title %}{{parent()}} | Erreur 403 {% endblock %}
+
+{% block body %}
+
+    <section class="page-403-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="text-center content-403">
+                        <div class="image mb-50">
+                            <img src="{{ asset('css/classillist-free-lite/assets/images/403.svg') }}" alt="Image 403">
+                        </div>
+                        <h1>Accès refusé </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
