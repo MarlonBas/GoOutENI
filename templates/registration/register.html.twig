@@ -17,9 +17,11 @@
     {{ form_row(registrationForm.pseudo) }}
     {{ form_row(registrationForm.telephone) }}
     {{ form_row(registrationForm.campus) }}
+    {% if(is_granted('ROLE_ADMIN')) %}
     {{ form_row(registrationForm.roles) }}
-    {{ form_row(registrationForm.agreeTerms) }}
-
+    {% endif %}
+    <label>Veuillez accepter les termes </label>
+    <input type="checkbox" value="AgreeTerms" required >
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
 {% endblock %}

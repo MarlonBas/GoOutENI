@@ -29,7 +29,10 @@ class UserController extends AbstractController
     public function modifier(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $participantRepository->find($id);
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $isGrantedUser = $this->isGranted('ROLE_ADMIN');
+
+        $form = $this->createForm(RegistrationFormType::class, $user,
+        ["isGrantedUser" => $isGrantedUser]);
         $form->handleRequest($request);
         $entityManager->flush($user);
         return $this->render('user/monprofil.html.twig', [

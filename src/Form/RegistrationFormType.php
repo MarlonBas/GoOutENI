@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,8 +23,14 @@ class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
+        /*if(empty(!$options["data"])){
+            $roles = $options["data"]->getRoles();
+            //$roles = $options["data"]->getRoles() -- $roles[0] = $options["data"]->getRoles()[0]
+            if($roles[0] == "")
+        }*/
+
         $builder
-            ->add('roles', ChoiceType::class, [ 'choices'=> ['ROLE_USER'=> 'ROLE_USER', 'ROLE_ORGA'=>'ROLE_ORGA', 'ROLE_ADMIN'=>'ROLE_ADMIN']])
             ->add('nom', TextType::class, ['label'=>'Nom', 'required'=>'true'])
             ->add('prenom', TextType::class, ['label'=>'Prenom', 'required'=>'true'])
             ->add('pseudo', TextType::class, ['label'=>'Pseudo', 'required'=>'true'])
@@ -57,27 +64,26 @@ class RegistrationFormType extends AbstractType
                 ],
                 'first_options'=> ['label'=> 'Mot de Passe'],
                 'second_options'=>['label'=> 'Confirmation Mot de Passe']
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
 
-            ])
-            ->get('roles')
-            ->addModelTransformer(new CallbackTransformer(
-                function ($rolesArray) {
-                    // transform the array to a string
-                    return count($rolesArray)? $rolesArray[0]: null;
-                },
-                function ($rolesString) {
-                    // transform the string back to an array
-                    return [$rolesString];
-                }
-            ))
+            ]);
+            if($options['isGrantedUser']) {
+
+                $builder
+
+                    ->add('roles', ChoiceType::class, ['choices' => ['ROLE_USER' => 'ROLE_USER', 'ROLE_ORGA' => 'ROLE_ORGA', 'ROLE_ADMIN' => 'ROLE_ADMIN']])
+                    ->get('roles')
+                    ->addModelTransformer(new CallbackTransformer(
+                        function ($rolesArray) {
+                            // transform the array to a string
+                            return count($rolesArray) ? $rolesArray[0] : null;
+                        },
+                        function ($rolesString) {
+                            // transform the string back to an array
+                            return [$rolesString];
+                        }
+
+                    ));
+               }
         ;
     }
 
@@ -85,6 +91,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Participant::class,
+            'isGrantedUser' => false
         ]);
     }
 }

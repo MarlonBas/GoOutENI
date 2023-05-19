@@ -12,8 +12,9 @@
     {{ form_row(registrationForm.pseudo) }}
     {{ form_row(registrationForm.telephone) }}
     {{ form_row(registrationForm.campus) }}
+    {% if(is_granted('ROLE_ADMIN')) %}
     {{ form_row(registrationForm.roles) }}
-    {{ form_row(registrationForm.agreeTerms) }}
+    {% endif %}
 
     <button type="submit" class="btn">Modifier</button>
     {{ form_end(registrationForm) }}
