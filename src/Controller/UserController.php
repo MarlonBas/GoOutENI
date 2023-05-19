@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
 use App\Form\RegistrationFormType;
-use App\Repository\BucketListRepository;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
