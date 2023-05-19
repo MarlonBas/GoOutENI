@@ -1,13 +1,18 @@
 <nav class="header-nav">
     <ul>
+
         <li> <a href="#" title="villes">Villes</a></li>
         <li> <a href="#" title="Campus">Campus</a></li>
         <li> <a href="{{ path('main_home') }}" title="Accueil">Accueil</a></li>
         {% if(app.user) %}
         <li><a href="{{ path('app_logout') }}" title="Deconnection">Se déconnecter</a></li>
         <li><a href="{{ path('user_monprofil', {'id': app.user.id}) }}" title="Profil">Mon profil</a></li>
-        {% else %}
-        <li><a href=" {{ path('app_login') }}" title="Connexion">Se connecter</a></li>
+
+                {% if(is_granted('ROLE_SUPER_ADMIN')) %}
+
+                    <li><a href="{{ path('app_admin_register')}}" title="Inscrire">Inscrire</a></li>
+
+                {% endif %}
         {% endif %}
 
     </ul>
