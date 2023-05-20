@@ -65,9 +65,15 @@ class AdminController extends AbstractController
                     $form->get('motdepasse')->getData()
                 )
             );
+            if ($form->isSubmitted()&& !$form->isValid()) {
+                $this->addFlash('failed', "Une erreur s'est produite, veuillez réessayer");
 
+            }
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Inscription crée !');
+
 
             // generate a signed url and email it to the user
               $this->emailVerifier->sendEmailConfirmation('app_admin_app_verify_email', $user,
