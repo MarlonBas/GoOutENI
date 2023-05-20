@@ -51,10 +51,7 @@ class UserController extends AbstractController
 
 
       //  }
-        if (!$form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('failed', "Une erreur s'est produite, veuillez réessayer");
 
-        }
             return $this->render('user/monprofil.html.twig', [
                     'registrationForm' => $form->createView(), 'user' => $user]
             );

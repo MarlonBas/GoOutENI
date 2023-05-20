@@ -65,10 +65,7 @@ class AdminController extends AbstractController
                     $form->get('motdepasse')->getData()
                 )
             );
-            if ($form->isSubmitted()&& !$form->isValid()) {
-                $this->addFlash('failed', "Une erreur s'est produite, veuillez réessayer");
 
-            }
             $entityManager->persist($user);
             $entityManager->flush();
 
