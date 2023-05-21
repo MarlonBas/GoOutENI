@@ -1,19 +1,11 @@
-<nav class="header-nav">
-    <ul class="navbar justify-content-end">
-
-        <li class="nav-link"> <a href="#" title="villes">Villes</a></li>
-        <li class="nav-link"> <a href="#" title="Campus">Campus</a></li>
-        <li class="nav-link"> <a href="{{ path('main_home') }}" title="Accueil">Accueil</a></li>
-        {% if(app.user) %}
-        <li class="nav-link"><a href="{{ path('app_logout') }}" title="Deconnection">Se déconnecter</a></li>
-        <li class="nav-link"><a href="{{ path('user_monprofil', {'id': app.user.id}) }}" title="Profil">Mon profil</a></li>
-
-                {% if(is_granted('ROLE_ADMIN')) %}
-
-                    <li class="nav-link"><a href="{{ path('app_admin_register')}}" title="Inscrire">Inscrire</a></li>
-
-                {% endif %}
-        {% endif %}
-
+<nav>
+    {% if(app.user) %}
+    <ul class="navbar justify-content-center biglinks">
+        <li class="header-logo"><a href="{{ path('main_home') }}" title="Go back to homepage">
+                <img src="{{ asset('img/logorecolor.png') }}" alt="Go out Logo">
+            </a></li>
+        <li class="nav-link extraspace"><a href="{{ path('app_logout') }}" title="Deconnection">Se déconnecter</a></li>
+        <li class="nav-link extraspace"><a href="{{ path('user_monprofil', {'id': app.user.id}) }}" title="Profil">Mon profil</a></li>
     </ul>
+    {% endif %}
 </nav>
