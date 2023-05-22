@@ -2,17 +2,28 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
+use App\Entity\Sortie;
 use App\Form\RegistrationFormType;
 use App\Form\UploadImageFormType;
 use App\Repository\ParticipantRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserController extends AbstractController
 {
+    private TokenStorageInterface $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
     /**
      * @Route("/users", name="liste_users")
      */
@@ -70,4 +81,58 @@ class UserController extends AbstractController
         }
         return $this -> render('user/profilparticipant.html.twig', ['user' => $user]);
     }
+    /**
+     * @Route("/home/inscription/{id}", name="user_inscription", requirements={"id"="\d+"})
+     */
+    public function inscription(int $id, SortieRepository $sortieRepository, ParticipantRepository $participantRepository) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        if ($user instanceof UserInterface) {
+            // Récupérer l'ID de l'utilisateur
+            $userId = $user->getId();
+
+            $user=$participantRepository->find($userId);
+
+            $sortie =$sortieRepository->find($id);
+            $user->addSorty($sortie);
+            $sortie->addParticipant($user);
+
+
+        }
+                 $em->flush($user);
+
+        return $this->redirectToRoute('main_home');
+
+
+
+    }
+    /**
+     * @Route("/home/desister/{id}", name="user_desistement", requirements={"id"="\d+"})
+     */
+    public function desistement(int $id, SortieRepository $sortieRepository, ParticipantRepository $participantRepository) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        if ($user instanceof UserInterface) {
+            // Récupérer l'ID de l'utilisateur
+            $userId = $user->getId();
+
+            $user=$participantRepository->find($userId);
+
+            $sortie =$sortieRepository->find($id);
+            $user->removeSorty($sortie);
+            $sortie->removeParticipant($user);
+
+
+        }
+        $em->flush($user);
+
+        return $this->redirectToRoute('main_home');
+    }
+
 }

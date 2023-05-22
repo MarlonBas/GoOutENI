@@ -68,25 +68,26 @@ class RegistrationFormType extends AbstractType
                 'second_options'=>['label'=> 'Confirmation Mot de Passe']
 
             ])
+            ->add('image', FileType::class, [
+                'label' => 'Upload Image',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image file (JPEG, PNG).',
+                    ]),
+                ],
+            ])
 
             ;
             if($options['isGrantedUser']) {
 
                 $builder
-                    ->add('image', FileType::class, [
-                        'label' => 'Upload Image',
-                        'mapped' => false,
-                        'required' => false,
-                        'constraints' => [
-                            new File([
-                                'mimeTypes' => [
-                                    'image/jpeg',
-                                    'image/png'
-                                ],
-                                'mimeTypesMessage' => 'Please upload a valid image file (JPEG, PNG).',
-                            ]),
-                        ],
-                    ])
+
                     ->add('roles', ChoiceType::class, ['choices' => ['ROLE_USER' => 'ROLE_USER', 'ROLE_ORGA' => 'ROLE_ORGA', 'ROLE_ADMIN' => 'ROLE_ADMIN'], 'attr'=>['class'=>'form-select form-select-m mb-3']])
                     ->get('roles')
                     ->addModelTransformer(new CallbackTransformer(

@@ -26,9 +26,24 @@
                 <td>{{ s.dateLimiteInscription | date}}</td>
                 <td>{{ s.participants | length }}/ {{ s.nbInscriptionMax}}</td>
                 <td>{{ s.etat.libelle }}</td>
-                <td></td>
+                <td>
+
+                </td>
                 <td>{{ s.organisateur.nom }}</td>
-                <td></td>
+                <td> {% if(is_granted(['ROLE_ORGA', 'ROLE_ADMIN'])) %}
+                        {% if(s.etat.id !=1) %}
+                            <a href="#">Annuler</a>
+                            <a href="#">Afficher</a>
+                        {% else %}
+                            <a href="#">Modifier</a>
+                            <a href="#">Publier</a>
+                        {% endif %}
+                    {% endif %}
+                    {% if(is_granted('ROLE_USER')) %}
+                         <a href="{{ path('user_inscription', {'id': s.id})}}">S'inscrire</a>
+                        <a href="{{ path('user_desistement', {'id': s.id})}}">Se Désister</a>
+                    {% endif %}
+                </td>
             </tr>
        </tbody>
     {% endfor %}
