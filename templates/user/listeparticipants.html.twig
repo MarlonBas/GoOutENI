@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Participants {% endblock %}
+
+
+{% block body %}
+
+    <div class="participants">
+        {% for u in users %}
+            <div class="card text-center" style="width: 15rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{u.nom}}</h5>
+                    <p class="card-text"> {{ u.prenom }}</p>
+                    <a href="{{ path('user_profil_participant', {'id': u.id}) }}" class="btn btn-dark" title="Details profil"> Details </a>
+                    <br>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
