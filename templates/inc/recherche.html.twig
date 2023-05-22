@@ -6,24 +6,40 @@
             <div class="col-md-4">
                 <div class="form-outline">
                     {{ form_row(recherche.campus) }}
-                    {{ form_row(recherche.stringRecherche) }}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-outline">
                     {{ form_row(recherche.dateDebut) }}
-                    {{ form_row(recherche.dateFin) }}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-outline">
                     {{ form_row(recherche.checkOrganisateur) }}
                     {{ form_row(recherche.checkInscrit) }}
-                    {{ form_row(recherche.checkNonInscrit) }}
-                    {{ form_row(recherche.checkPassee) }}
-                    {{ form_end(recherche) }}
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-outline">
+                    {{ form_row(recherche.stringRecherche) }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-outline">
+                    {{ form_row(recherche.dateFin) }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-outline">
+                    {{ form_row(recherche.checkNonInscrit) }}
+                    {{ form_row(recherche.checkPassee) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {{ form_end(recherche) }}
         </div>
     </div>
 </div>

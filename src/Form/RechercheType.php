@@ -30,10 +30,14 @@ class RechercheType extends AbstractType
                 'label' => 'Nom de sortie'
             ])
             ->add('dateDebut', DateType::class, [
-                'label' => 'Entre la date'
+                'label' => 'Entre la date',
+                'widget' => 'single_text',
+                'attr'=>['class'=>'date date-lg mb-3']
             ])
             ->add('dateFin', DateType::class, [
-                'label' => 'et la date'
+                'label' => 'et la date',
+                'widget' => 'single_text',
+                'attr'=>['class'=>'date date-lg mb-3']
             ])
             ->add('checkOrganisateur', CheckboxType::class, [
                 'label' => "Sorties dont je suis l'organisateur/trice"
