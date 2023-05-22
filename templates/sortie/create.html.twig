@@ -20,11 +20,11 @@
 
 
             <br>
-             <div class="col-6">
+             <div class="col-8">
+                 {{ form_widget(sortieForm.enregistrer) }}
+                 {{ form_widget(sortieForm.publier) }}
+                 <button class="btn btn-danger" onclick="window.location.href ='{{ path('main_home') }}'" >Annuler</button>
 
-             {{ form_widget(sortieForm.enregistrer) }}
-             {{ form_widget(sortieForm.publier) }}
-                 <button onclick="window.location.href ='{{ path('main_home') }}' " >Annuler</button>
              </div>
 
 
