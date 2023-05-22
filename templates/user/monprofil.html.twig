@@ -4,14 +4,6 @@
 
 {% block body %}
 
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="flash flash-{{ label }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
 <div class="row">
     <div class="col-md-6 mb-4">
 
@@ -27,25 +19,25 @@
 <div class="card-body px-4 py-5 px-md-5">
     <div class="row">
         <div class="col-md-6 mb-4">
-            <div class="form-outline">
+            <div class="form-outline mb-4">
                  {{ form_row(registrationForm.email) }}
                 <div class="invalid-feedback">Veuillez saisir un nom</div>
             </div>
         </div>
         <div class="col-md-6 mb-4">
-            <div class="form-outline">
+            <div class="form-outline mb-4">
                  {{ form_row(registrationForm.motdepasse)}}
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 mb-4">
-            <div class="form-outline">
+            <div class="form-outline mb-4">
                  {{ form_row(registrationForm.nom) }}
             </div>
         </div>
         <div class="col-md-6 mb-4">
-            <div class="form-outline">
+            <div class="form-outline mb-4">
                  {{ form_row(registrationForm.prenom) }}
             </div>
         </div>
@@ -87,7 +79,11 @@
     {% endif %}
              <div class="col-md-6 mb-4">
                  <div class="form-outline mb-4">
-                    <button type="submit" class="btn btn-dark btn-lg">Modifier</button>
+                     <div class="btn-group-m">
+                    <button type="submit" class="btn btn-dark btn-m">Modifier</button>
+                         <button type="submit" class="btn btn-danger btn-m">Reset</button>
+
+                     </div>
                  </div>
             </div>
         </div>

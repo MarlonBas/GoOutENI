@@ -33,17 +33,17 @@ class RegistrationFormType extends AbstractType
         }*/
 
         $builder
-            ->add('nom', TextType::class, ['label'=>'Nom', 'required'=>'true'])
-            ->add('prenom', TextType::class, ['label'=>'Prenom', 'required'=>'true'])
-            ->add('pseudo', TextType::class, ['label'=>'Pseudo', 'required'=>'true'])
-            ->add('telephone', TextType::class, ['label'=>'Telephone', 'required'=>'true'])
-            ->add('email', TextType::class, ['label'=>'Email', 'required'=>'true'])
+            ->add('nom', TextType::class, ['label'=>'Nom', 'required'=>'true', 'attr'=>['class'=>'form-control form-control-m']])
+            ->add('prenom', TextType::class, ['label'=>'Prenom', 'required'=>'true', 'attr'=>['class'=>'form-control form-control-m']])
+            ->add('pseudo', TextType::class, ['label'=>'Pseudo', 'required'=>'true', 'attr'=>['class'=>'form-control form-control-m']])
+            ->add('telephone', TextType::class, ['label'=>'Telephone', 'required'=>'true', 'attr'=>['class'=>'form-control form-control-m']])
+            ->add('email', TextType::class, ['label'=>'Email', 'required'=>'true', 'attr'=>['class'=>'form-control form-control-m']])
             ->add('campus', EntityType::class, ['label' => 'Campus',
                 // classe à afficher
                 'class' => Campus::class,
                 // quelle propriété utiliser pour les <option> dans la liste déroulante ?
                 'choice_label' => 'nom',
-                'placeholder' => '--Choississez votre campus--', 'attr'=>['class'=>'form-select form-select-lg mb-3']])
+                'placeholder' => '--Choississez votre campus--', 'attr'=>['class'=>'form-select form-select-xs mb-3']])
 
             ->add('motdepasse', RepeatedType::class, ['type'=> PasswordType::class, 'label'=>'Mot de Passe',
                 // instead of being set onto the object directly,
@@ -51,7 +51,7 @@ class RegistrationFormType extends AbstractType
                 'invalid_message'=>'Les mots de passe doivent correspondre',
                 'mapped' => false,
                 'options'=> [
-                'attr' => ['autocomplete' => 'new-password']],
+                'attr' => ['autocomplete' => 'new-password', 'class'=>'form-control form-control-m']],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -87,7 +87,7 @@ class RegistrationFormType extends AbstractType
                             ]),
                         ],
                     ])
-                    ->add('roles', ChoiceType::class, ['choices' => ['ROLE_USER' => 'ROLE_USER', 'ROLE_ORGA' => 'ROLE_ORGA', 'ROLE_ADMIN' => 'ROLE_ADMIN'], 'attr'=>['class'=>'form-select form-select-lg mb-3']])
+                    ->add('roles', ChoiceType::class, ['choices' => ['ROLE_USER' => 'ROLE_USER', 'ROLE_ORGA' => 'ROLE_ORGA', 'ROLE_ADMIN' => 'ROLE_ADMIN'], 'attr'=>['class'=>'form-select form-select-m mb-3']])
                     ->get('roles')
                     ->addModelTransformer(new CallbackTransformer(
                         function ($rolesArray) {

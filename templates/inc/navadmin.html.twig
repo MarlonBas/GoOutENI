@@ -1,14 +1,19 @@
-<nav class="p-0">
+
     {% if(app.user) %}
         {% if(is_granted('ROLE_ADMIN')) %}
-            <ul class="navbar adminnav justify-content-center">
-                <li>Options administrateur : </li>
-                <li class="nav-link"><a href="{{ path('app_admin_register')}}" title="Inscrire utilisateur">Inscrire utilisateur</a></li>
+    <nav class="navbar navbar-expand-lg bg-danger" >
+        <div class="container-fluid">
+           <div class="navbar-brand"> Administrateur </div>
+            <div class="collapse navbar-collapse " id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item" ><a href="{{ path('app_admin_register')}}" class="nav-link" title="Inscrire utilisateur">Inscrire utilisateur</a></li>
                 {# Je propose de rajouter ceci par rapport à la maquette vu qu'Hervé à dit de le faire faire par l'admin... #}
-                <li class="nav-link"> <a href="#" title="Ajouter lieu de sortie">Ajouter lieu de sortie</a></li>
-                <li class="nav-link"> <a href="#" title="Ajouter ville">Ajouter ville</a></li>
-                <li class="nav-link"> <a href="#" title="Ajouter campus">Ajouter campus</a></li>
+                <li class="nav-item"> <a href="#" title="Ajouter lieu de sortie"  class="nav-link">Ajouter lieu de sortie</a></li>
+                <li class="nav-item" > <a href="#" title="Ajouter ville" class="nav-link">Ajouter ville</a></li>
+                <li class="nav-item" > <a href="#" title="Ajouter campus" class="nav-link">Ajouter campus</a></li>
             </ul>
+            </div>
+        </div>
+    </nav>
         {% endif %}
     {% endif %}
-</nav>

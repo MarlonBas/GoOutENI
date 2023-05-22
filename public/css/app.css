@@ -1,73 +1,20 @@
 html {
-    font-family: 'Roboto', sans-serif;
+
+
+    position: relative;
+    min-height: 100%;
 }
 body {
-    background-color:#FFFFFF;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    margin-bottom: 60px; /* hauteur du footer */
+    font-family: "system-ui";
 }
-.container {
-    margin: auto;
-}
-body > .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.header-logo {
-    font-size: 3rem;
-    font-weight: normal;
-}
-
-header a {
-    text-decoration: none;
-    color: #FF6B6B;
-    font-weight: bold;
-}
-
-header {
-    background-color:#FFFFFF;
-    border-bottom: 1px solid #FF6B6B;
-}
-
-header nav a:hover {
-    text-decoration: underline;
-}
-.header-logo img {
-    max-width: 300px;
-}
-
-.header-top {
-    display:flex;
-    justify-content: left;
-    background-color:#FFFFFF;
-}
-
-footer{
-    text-align: center;
-    background-color:#FF6B6B;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
-    padding-left: 0;
-}
-
-nav li {
-    margin-right: 1rem;
-    font-weight: bold;
-}
-
-.extraspace {
-    margin-right: 3rem;
-}
-
-main {
-    flex: 1;
+.footer {
+    position: absolute;
+    color: white;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* hauteur du footer */
+    background-color: #f5f5f5;
 }
 
 .adminnav {
@@ -80,16 +27,3 @@ main {
     color: #2c2c2c;
 }
 
-.biglinks {
-    font-size: 50px;
-    font-family: 'Oswald', sans-serif;
-}
-
-.custom-btn {
-    background-color: #FF6B6B;
-    color: #FFFFFF;
-}
-
-.bg-custom-color {
-    background-color: rgba(255, 107, 107, 0.15);
-}

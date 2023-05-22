@@ -1,11 +1,23 @@
-<nav>
-    {% if(app.user) %}
-    <ul class="navbar justify-content-center biglinks">
-        <li class="header-logo"><a href="{{ path('main_home') }}" title="Go back to homepage">
-                <img src="{{ asset('img/logorecolor.png') }}" alt="Go out Logo">
-            </a></li>
-        <li class="nav-link extraspace"><a href="{{ path('user_monprofil', {'id': app.user.id}) }}" title="Profil">Mon profil</a></li>
-        <li class="nav-link extraspace"><a href="{{ path('app_logout') }}" title="Deconnection">Se déconnecter</a></li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a href="{{ path('main_home') }}"   class="navbar-brand" title="Go back to homepage">
+                    <img src="{{ asset('img/logorecolor.png') }}" style="width: 150px"alt="Go out Logo">
+                </a>
+
+            {% if(app.user) %}
+            <div class="collapse navbar-collapse" id="navbarColor01">
+
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a href="{{ path('main_home') }}" class="nav-link active"> HOME </a></li>
+                    <li class="nav-item"><a href="{{ path('sortie_create') }}" class="nav-link active"> ORGANISER </a></li>
+                </ul>
+                <div class="d-flex">
+        <a href="{{ path('user_monprofil', {'id': app.user.id}) }}" class="btn btn-primary btn-light m-2 my-lg-0 " role="button" title="Profil">MON PROFIL</a>
+        <a class="btn btn-secondary m-2 my-sm-0" href="{{ path('app_logout') }}" title="Deconnection">SE DECONNECTER</a>
+                </div>
+
+</div>
     {% endif %}
+            </div>
+        </div>
 </nav>

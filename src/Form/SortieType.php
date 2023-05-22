@@ -29,28 +29,28 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom', null, [
-                'label' => 'Nom de la sortie : '])
+                'label' => 'Nom de la sortie : ', 'attr'=>['class'=>'form-control form-control-m']])
             ->add('dateHeureDebut', DateTimeType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date et heure de la sortie : '])
+                'label' => 'Date et heure de la sortie : ', 'attr'=>['class'=>'form-control form-control-m']])
             ->add('duree', null, [
-                'label' => 'Durée : '
+                'label' => 'Durée : ', 'attr'=>['class'=>'form-control form-control-m']
             ])
             ->add('dateLimiteInscription', DateType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date limite d\'inscription : '])
+                'label' => 'Date limite d\'inscription : ', 'attr'=>['class'=>'form-control form-control-m']])
             ->add('nbInscriptionMax', null, [
-                'label' => 'Nombre de places : '
+                'label' => 'Nombre de places : ', 'attr'=>['class'=>'form-control form-control-m']
             ])
             ->add('infosSortie', null, [
-                'label' => 'Description et infos : '
+                'label' => 'Description et infos : ', 'attr'=>['class'=>'form-control form-control-m']
             ])
            ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'label' => 'Lieu : ',
                 'choice_label' => 'nom',
                 'placeholder' => 'Selectionner le lieu de la sortie',
-                'attr'=>['class'=>'form-select form-select-lg mb-3'],
+                'attr'=>['class'=>'form-select form-select-m mb-3'],
                 //'disabled'=> $ville === null,
                 'query_builder' => fn(LieuRepository $lieuRepository) => $lieuRepository->createQueryBuilder('l')
                     ->orderBy('l.nom', 'ASC')
@@ -58,7 +58,7 @@ class SortieType extends AbstractType
             ->add('campus', EntityType::class,[
                 'class' =>Campus::class,
                 'choice_label' => 'nom',
-                'attr'=>['class'=>'form-select form-select-lg mb-3'],
+                'attr'=>['class'=>'form-select form-select-m mb-3'],
                 'query_builder' => fn(CampusRepository $campusRepository) => $campusRepository->createQueryBuilder('c')
                     ->orderBy('c.nom', 'ASC')
         ])
@@ -167,7 +167,7 @@ class SortieType extends AbstractType
                 'choices'         => $villeID,
                 'disabled'  => null === $villeID,
                 'invalide_message' => false,
-                'autocomplete' => true,
+                'autocomplete' => true, 'attr'=>['class'=>'form-control form-control-m']
             ]
 
         );

@@ -11,43 +11,73 @@
     {% if error %}
         <div class="alert alert-danger">{{ error.value }}</div>
     {% endif %}
-
+{{ form_start(sortieForm)}}
+<div class="card-body px-4 py-5 px-md-5">
     <div class="row">
-         <div class="col-6">
-            {{ form_start(sortieForm)}}
+        <div class="col-md-6 mb-4">
+            <div class="form-outline mb-4">
+                {{ form_row(sortieForm.nom) }}
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="form-outline mb-4">
+                {{ form_row(sortieForm.dateHeureDebut) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="form-outline mb-4">
 
-            {{ form_row(sortieForm.nom) }}
-            {{ form_row(sortieForm.dateHeureDebut) }}
             {{ form_row(sortieForm.duree) }}
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="form-outline mb-4">
             {{ form_row(sortieForm.dateLimiteInscription) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="form-outline mb-4">
             {{ form_row(sortieForm.nbInscriptionMax) }}
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="form-outline mb-4">
             {{ form_row(sortieForm.infosSortie) }}
 
+            </div>
+        </div>
+    </div>
 
-            <br>
-             <div class="col-8">
+</div>
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="form-outline mb-4">
+        {% if sortie.nom != null %}
+            {{ form_widget(sortieForm.campus)}}
+        {% else %}
+
+            <input type="text" value="{{ campus.nom }}" readonly>
+        {% endif %}
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="form-outline mb-4">
+        {{ form_row(sortieForm.lieu) }}
+        </div>
+    </div>
+</div>
+    <div class="col-8">
                  {{ form_widget(sortieForm.enregistrer) }}
                  {{ form_widget(sortieForm.publier) }}
                  <button class="btn btn-danger" onclick="window.location.href ='{{ path('main_home') }}'" >Annuler</button>
-             </div>
-
-
-
-         </div>
-        <div class="col-6">
-            <label for="campus">Campus :</label>
-            {% if sortie.nom != null %}
-                {{ form_widget(sortieForm.campus)}}
-            {% else %}
-                <input type="text" value="{{ campus.nom }}" readonly>
-            {% endif %}
-            <br>
-            {{ form_row(sortieForm.lieu) }}
-
-        </div>
-
-            {{ form_end(sortieForm) }}
     </div>
+
+    {{ form_end(sortieForm) }}
+
 
 
 {% endblock %}
