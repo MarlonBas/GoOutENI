@@ -4,34 +4,36 @@
     {% set var ='<strong>titre en gras</strong>' %}
     {{ var | raw }} #}
 
-    {% for s in sorties %}
-        <table>
-        <thead>
-        <tr>
-            <th> Nom de la sortie</th>
-            <th> Date de la sortie </th>
-            <th> Clôture </th>
-            <th> Inscrits/Places</th>
-            <th> Etat</th>
-            <th> Inscrit</th>
-            <th> Organisateur</th>
-            <th> Actions</th>
-        </tr>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"> Nom de la sortie</th>
+                <th scope="col"> Date de la sortie </th>
+                <th scope="col"> Clôture </th>
+                <th scope="col"> Inscrits/Places</th>
+                <th scope="col"> Etat</th>
+                <th scope="col"> Inscrit</th>
+                <th scope="col"> Organisateur</th>
+                <th scope="col"> Actions</th>
+            </tr>
         </thead>
+    {% for s in sorties %}
         <tbody>
-        <tr>
-    <td>{{ s.nom }}</td>
-    <td>{{ s.dateHeureDebut | date}}</td>
-    <td>{{ s.dateLimiteInscription | date}}</td>
-    <td>{{ s.participants | length }}/ {{ s.nbInscriptionMax}}</td>
-    <td>{{ s.etat.libelle }}</td>
-    <td></td>
-    <td>{{ s.organisateur.nom }}</td>
-    <td></td>
-        </tr>
+            <tr scope="row">
+                <td>{{ s.nom }}</td>
+                <td>{{ s.dateHeureDebut | date}}</td>
+                <td>{{ s.dateLimiteInscription | date}}</td>
+                <td>{{ s.participants | length }}/ {{ s.nbInscriptionMax}}</td>
+                <td>{{ s.etat.libelle }}</td>
+                <td></td>
+                <td>{{ s.organisateur.nom }}</td>
+                <td></td>
+            </tr>
        </tbody>
-</table>
     {% endfor %}
+</table>
+
 
     {% if(is_granted('ROLE_ADMIN') or is_granted('ROLE_ORGA') ) %}
         <button  class="btn btn-primary"  onclick="window.location.href ='{{ path('sortie_create') }}' " >Créer une Sortie</button>
