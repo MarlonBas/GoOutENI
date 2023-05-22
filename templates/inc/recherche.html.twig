@@ -2,44 +2,29 @@
     {{ form_start(recherche) }}
     <div class="card-body px-4 py-5 px-md-5">
         <h2>Trouvez une sortie !</h2><br>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-outline">
-                    {{ form_row(recherche.campus) }}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-outline">
+                        {{ form_row(recherche.campus) }}
+                        {{ form_row(recherche.stringRecherche) }}
+                        {{ form_row(recherche.dateDebut) }}
+                        {{ form_row(recherche.dateFin) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-outline">
+                        {{ form_row(recherche.checkOrganisateur) }}
+                        {{ form_row(recherche.checkInscrit) }}
+                        {{ form_row(recherche.checkNonInscrit) }}
+                        {{ form_row(recherche.checkPassee) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-outline">
+                        {{ form_end(recherche) }}
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-outline">
-                    {{ form_row(recherche.dateDebut) }}
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-outline">
-                    {{ form_row(recherche.checkOrganisateur) }}
-                    {{ form_row(recherche.checkInscrit) }}
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-outline">
-                    {{ form_row(recherche.stringRecherche) }}
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-outline">
-                    {{ form_row(recherche.dateFin) }}
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-outline">
-                    {{ form_row(recherche.checkNonInscrit) }}
-                    {{ form_row(recherche.checkPassee) }}
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            {{ form_end(recherche) }}
         </div>
     </div>
 </div>

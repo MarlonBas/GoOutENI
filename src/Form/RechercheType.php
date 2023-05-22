@@ -23,33 +23,41 @@ class RechercheType extends AbstractType
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
+                'required' => false,
                 'placeholder' => '--Choississez votre campus--',
                 'attr'=>['class'=>'form-select form-select-lg mb-3']
             ])
             ->add('stringRecherche', TextType::class, [
-                'label' => 'Nom de sortie'
+                'label' => 'Nom de sortie',
+                'required' => false
             ])
             ->add('dateDebut', DateType::class, [
                 'label' => 'Entre la date',
+                'required' => false,
                 'widget' => 'single_text',
                 'attr'=>['class'=>'date date-lg mb-3']
             ])
             ->add('dateFin', DateType::class, [
                 'label' => 'et la date',
+                'required' => false,
                 'widget' => 'single_text',
                 'attr'=>['class'=>'date date-lg mb-3']
             ])
             ->add('checkOrganisateur', CheckboxType::class, [
-                'label' => "Sorties dont je suis l'organisateur/trice"
+                'label' => "Sorties dont je suis l'organisateur/trice",
+                'required' => false
             ])
             ->add('checkInscrit', CheckboxType::class, [
-                'label' => 'Sorties auquels je suis incrit/e'
+                'label' => 'Sorties auquels je suis incrit/e',
+                'required' => false
             ])
             ->add('checkNonInscrit', CheckboxType::class, [
-                'label' => 'Sorties auquels je ne suis pas incrit/e'
+                'label' => 'Sorties auquels je ne suis pas incrit/e',
+                'required' => false
             ])
             ->add('checkPassee', CheckboxType::class, [
-                'label' => 'Sorties passées'
+                'label' => 'Sorties passées',
+                'required' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Rechercher',
