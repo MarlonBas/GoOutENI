@@ -84,14 +84,12 @@ class UserController extends AbstractController
     /**
      * @Route("/home/inscription/{id}", name="user_inscription", requirements={"id"="\d+"})
      */
-    public function inscription(int $id, SortieRepository $sortieRepository, ParticipantRepository $participantRepository) {
+    public function inscription(EntityManagerInterface $entityManager, int $id, SortieRepository $sortieRepository, ParticipantRepository $participantRepository) {
 
-        $em = $this->getDoctrine()->getManager();
 
         $user = $this->tokenStorage->getToken()->getUser();
 
-        if ($user instanceof UserInterface) {
-            // Récupérer l'ID de l'utilisateur
+
             $userId = $user->getId();
 
             $user=$participantRepository->find($userId);
@@ -101,8 +99,9 @@ class UserController extends AbstractController
             $sortie->addParticipant($user);
 
 
-        }
-                 $em->flush($user);
+        $entityManager->flush($sortie);
+
+        $entityManager->flush($user);
 
         return $this->redirectToRoute('main_home');
 
@@ -112,25 +111,25 @@ class UserController extends AbstractController
     /**
      * @Route("/home/desister/{id}", name="user_desistement", requirements={"id"="\d+"})
      */
-    public function desistement(int $id, SortieRepository $sortieRepository, ParticipantRepository $participantRepository) {
+    public function desistement(int $id, EntityManagerInterface $entityManager
+, SortieRepository $sortieRepository, ParticipantRepository $participantRepository) {
 
-        $em = $this->getDoctrine()->getManager();
 
         $user = $this->tokenStorage->getToken()->getUser();
 
-        if ($user instanceof UserInterface) {
-            // Récupérer l'ID de l'utilisateur
+
             $userId = $user->getId();
 
             $user=$participantRepository->find($userId);
 
             $sortie =$sortieRepository->find($id);
+
             $user->removeSorty($sortie);
             $sortie->removeParticipant($user);
 
 
-        }
-        $em->flush($user);
+        $entityManager->flush($sortie);
+        $entityManager->flush($user);
 
         return $this->redirectToRoute('main_home');
     }
