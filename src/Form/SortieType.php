@@ -49,15 +49,20 @@ class SortieType extends AbstractType
                 'label' => 'Lieu : ',
                 'choice_label' => 'nom',
                 'placeholder' => 'Selectionner le lieu de la sortie',
+                'attr'=>['class'=>'form-select form-select-lg mb-3'],
                 //'disabled'=> $ville === null,
                 'query_builder' => fn(LieuRepository $lieuRepository) => $lieuRepository->createQueryBuilder('l')
                     ->orderBy('l.nom', 'ASC')
             ])
             ->add( 'enregistrer', SubmitType::class, [
-                'label' =>'Enregistrer'])
+                'label' =>'Enregistrer',
+                'attr'=>['class'=>'btn btn-primary']
+            ])
 
             ->add( 'publier', SubmitType::class, [
-                'label' =>'Publier la sortie']);
+                'label' =>'Publier la sortie',
+                'attr'=>['class'=>'btn btn-primary']
+            ]);
 
 
 //        ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
