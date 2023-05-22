@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 class="text-center">Organisé une nouvelle sortie ! </h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error.value }}</div>
+    {% endif %}
+    <div class="row">
+         <div class="col-6">
+            {{ form_start(sortieForm)}}
+
+
+            {{ form_row(sortieForm.nom) }}
+            {{ form_row(sortieForm.dateHeureDebut) }}
+            {{ form_row(sortieForm.duree) }}
+            {{ form_row(sortieForm.dateLimiteInscription) }}
+            {{ form_row(sortieForm.nbInscriptionMax) }}
+            {{ form_row(sortieForm.infosSortie) }}
+
+
+            <br>
+             <div class="col-6">
+
+             {{ form_widget(sortieForm.enregistrer) }}
+             {{ form_widget(sortieForm.publier) }}
+                 <button onclick="window.location.href ='{{ path('main_home') }}' " >Annuler</button>
+             </div>
+
+
+
+         </div>
+        <div class="col-6">
+            <label for="campus">Campus :</label>
+            <input type="text" value="{{ userCampus.nom }}" readonly>
+
+            <br>
+            {{ form_row(sortieForm.lieu) }}
+
+        </div>
+
+            {{ form_end(sortieForm) }}
+    </div>
+{% endblock %}
+
+{% block title %}
+    Organiser une sortie |  {{ parent() }}
+{% endblock %}
