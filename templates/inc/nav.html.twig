@@ -4,8 +4,8 @@
         <li class="header-logo"><a href="{{ path('main_home') }}" title="Go back to homepage">
                 <img src="{{ asset('img/logorecolor.png') }}" alt="Go out Logo">
             </a></li>
-        <li class="nav-link extraspace"><a href="{{ path('app_logout') }}" title="Deconnection">Se déconnecter</a></li>
         <li class="nav-link extraspace"><a href="{{ path('user_monprofil', {'id': app.user.id}) }}" title="Profil">Mon profil</a></li>
+        <li class="nav-link extraspace"><a href="{{ path('app_logout') }}" title="Deconnection">Se déconnecter</a></li>
     </ul>
     {% endif %}
 </nav>
