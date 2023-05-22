@@ -51,15 +51,13 @@ class SortieController extends AbstractController
         //si utilisateur plus connecter redirection a la page de connection
         if($userCo === null){
             return $this->redirectToRoute('app_login');
-
         }
 
         $campus = $userCo->getCampus();
-
         $listeVille = $villeRepository->findAll();
+
         //on initialise notre variable erreur
         $error = "";
-
         $sortie = new Sortie();
 
         //Formulaire ajout de sortie
@@ -95,6 +93,7 @@ class SortieController extends AbstractController
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($sortie);
                     $em->flush();
+                    $this->addFlash('success', "La sortie a été créée avec succès");
                     return $this->redirectToRoute('main_home');
                 }
             }
@@ -119,13 +118,21 @@ class SortieController extends AbstractController
                              LieuRepository $lieuRepository,
                             SortieRepository $sortieRepository): Response
     {
+        $userCo =  $this->getUser();
         $sortie = $sortieRepository->find($id);
+        $userOrganisateur = $sortie->getOrganisateur();
+
+        if($userCo != $userOrganisateur){
+            $this->addFlash('danger', "Redirection vous n'avez pas accés a cette page");
+            return $this->redirectToRoute('main_home');
+        }
+
         $campus = $sortie->getOrganisateur()->getCampus();
         $lieu = $sortie->getLieu();
         $latitude = $lieu->getLatitude();
         $longitude = $lieu->getLongitude();
         $ville = $lieu->getVille();
-        $userCo =  $this->getUser();
+
         $error = "";
 //        $newLieu = new Lieu();
 //        $lieuform = $this->createForm(LieuFormType::class, $newLieu);
@@ -157,7 +164,6 @@ class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success', "La sortie a été modifiée avec succès");
-
             return $this->redirectToRoute('main_home');
 
         }

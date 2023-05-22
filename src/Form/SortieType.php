@@ -60,8 +60,8 @@ class SortieType extends AbstractType
                 'choice_label' => 'nom',
                 'attr'=>['class'=>'form-select form-select-m mb-3'],
                 'query_builder' => fn(CampusRepository $campusRepository) => $campusRepository->createQueryBuilder('c')
-                    ->orderBy('c.nom', 'ASC')
-        ])
+                    ->orderBy('c.nom', 'ASC'),
+                       ])
             ->add( 'enregistrer', SubmitType::class, [
                 'label' =>'Enregistrer',
                 'attr'=>['class'=>'btn btn-primary']

@@ -59,8 +59,9 @@
         {% if sortie.nom != null %}
             {{ form_widget(sortieForm.campus)}}
         {% else %}
+            <input type="text" class ="form-control form-control-m" value="{{ campus.nom }}" readonly>
+            {{ form_widget(sortieForm.campus,{'attr': {'class': 'd-none'} }) }}
 
-            <input type="text" value="{{ campus.nom }}" readonly>
         {% endif %}
         </div>
     </div>

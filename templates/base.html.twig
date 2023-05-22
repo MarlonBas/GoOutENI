@@ -35,16 +35,17 @@
 
                     {% include('inc/navadmin.html.twig') %}
 
-                {# Lis et renvoit tous les messages flash #}
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="flash flash-{{ label }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-
         </header>
+
+        {# Lis et renvoit tous les messages flash #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <main class="bg-custom-color p-4">
             <div class="container text-center">
                 {% block body %}{% endblock %}
