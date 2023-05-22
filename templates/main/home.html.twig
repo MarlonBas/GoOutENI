@@ -7,5 +7,9 @@
     {# A quoi ça sert ça ?
     {% set var ='<strong>titre en gras</strong>' %}
     {{ var | raw }} #}
+    {% if(is_granted('ROLE_ADMIN') or is_granted('ROLE_ORGA') ) %}
+        <button onclick="window.location.href ='{{ path('sortie_create') }}' " >Créer une Sortie</button>
+    {% endif %}
+
 {% endblock %}
 {% block title %}{{ parent() }} | Home {% endblock%}

@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <h1 class="text-center">Organisé une nouvelle sortie ! </h1>
+    <h1 class="text-center">Organiser une nouvelle sortie ! </h1>
     {% if error %}
         <div class="alert alert-danger">{{ error.value }}</div>
     {% endif %}
@@ -41,6 +41,8 @@
 
             {{ form_end(sortieForm) }}
     </div>
+
+
 {% endblock %}
 
 {% block title %}
