@@ -3,6 +3,12 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+    <div class="container">
+    <div class="col"></div>
+    <div class="col"></div>
+    {% if not app.user %}
+    <img src="{{ asset('img/logorecolor.png') }}" alt="Go out Logo" class="mb-4">
+    {% endif %}
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -21,8 +27,7 @@
     <input type="password" name="password" id="inputPassword" class="form-control form-control-sm" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+           value="{{ csrf_token('authenticate') }}">
 
 
         <div class="checkbox mb-3">
@@ -36,4 +41,7 @@
         Connexion
     </button>
 </form>
+    </div>
+    <div class="col"></div>
+    </div>
 {% endblock %}
