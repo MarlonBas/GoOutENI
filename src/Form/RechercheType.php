@@ -23,6 +23,8 @@ class RechercheType extends AbstractType
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
+                'placeholder' => '--Choississez votre campus--',
+                'attr'=>['class'=>'form-select form-select-lg mb-3']
             ])
             ->add('stringRecherche', TextType::class, [
                 'label' => 'Nom de sortie'
@@ -46,7 +48,8 @@ class RechercheType extends AbstractType
                 'label' => 'Sorties passées'
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Rechercher'
+                'label' => 'Rechercher',
+                'attr'=>['class'=>'btn btn-lg btn-dark']
             ])
         ;
     }
