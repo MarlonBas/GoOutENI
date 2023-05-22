@@ -2,14 +2,19 @@
 
 {% block body %}
 
-    <h1 class="text-center">Organiser une nouvelle sortie ! </h1>
+    {% if sortie.nom != null %}
+        <h1 class="text-center">Modification de la sortie  </h1>
+    {% else %}
+         <h1 class="text-center">Organiser une nouvelle sortie ! </h1>
+    {% endif %}
+
     {% if error %}
         <div class="alert alert-danger">{{ error.value }}</div>
     {% endif %}
+
     <div class="row">
          <div class="col-6">
             {{ form_start(sortieForm)}}
-
 
             {{ form_row(sortieForm.nom) }}
             {{ form_row(sortieForm.dateHeureDebut) }}
@@ -24,7 +29,6 @@
                  {{ form_widget(sortieForm.enregistrer) }}
                  {{ form_widget(sortieForm.publier) }}
                  <button class="btn btn-danger" onclick="window.location.href ='{{ path('main_home') }}'" >Annuler</button>
-
              </div>
 
 
@@ -32,8 +36,11 @@
          </div>
         <div class="col-6">
             <label for="campus">Campus :</label>
-            <input type="text" value="{{ userCampus.nom }}" readonly>
-
+            {% if sortie.nom != null %}
+                {{ form_widget(sortieForm.campus)}}
+            {% else %}
+                <input type="text" value="{{ campus.nom }}" readonly>
+            {% endif %}
             <br>
             {{ form_row(sortieForm.lieu) }}
 

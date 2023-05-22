@@ -10,6 +10,7 @@ use App\Form\VilleFormType;
 use App\Form\LieuFormType;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
+use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,7 +54,7 @@ class SortieController extends AbstractController
 
         }
 
-        $userCampus = $userCo->getCampus();
+        $campus = $userCo->getCampus();
 
         $listeVille = $villeRepository->findAll();
         //on initialise notre variable erreur
@@ -99,17 +100,85 @@ class SortieController extends AbstractController
             }
 
 
-
-
-
         return $this->render('sortie/create.html.twig', [
             'sortieForm' => $sortieForm->createView(),
+            'sortie' => $sortie,
             'listeVille' => $listeVille,
             'userCo' => $userCo,
-            'userCampus' => $userCampus,
+            'campus' => $campus,
             'error' => $error,
         ]);
     }
+
+    /**
+     * @Route("/modif/{id}", name="modif")
+     */
+    public function modifier(int $id, Request $request,
+                             EtatRepository $etatRepository,
+                             VilleRepository $villeRepository,
+                             LieuRepository $lieuRepository,
+                            SortieRepository $sortieRepository): Response
+    {
+        $sortie = $sortieRepository->find($id);
+        $campus = $sortie->getOrganisateur()->getCampus();
+        $lieu = $sortie->getLieu();
+        $latitude = $lieu->getLatitude();
+        $longitude = $lieu->getLongitude();
+        $ville = $lieu->getVille();
+        $userCo =  $this->getUser();
+        $error = "";
+//        $newLieu = new Lieu();
+//        $lieuform = $this->createForm(LieuFormType::class, $newLieu);
+
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            //Recuperation du choix si Modification simple ou Si Publication
+            if ($sortieForm->getClickedButton() && 'enregistrer' === $sortieForm->getClickedButton()->getName()) {
+                $etat = $etatRepository->find(1);
+            }
+            if ($sortieForm->getClickedButton() && 'publier' === $sortieForm->getClickedButton()->getName()) {
+                $etat = $etatRepository > find(2);
+            }
+
+            $dateDebut = $sortieForm->get('dateHeureDebut');
+            $dateFin = $sortieForm -> get('dateLimiteInscription');
+
+            //Gestion des erreurs de date
+            if ($dateFin->getData() > $dateDebut->getData()) {
+                $error = [
+                    'Key' => -1,
+                    'value' => "La date de limite d'inscription ne peut pas etre aprés la date de la sortie"
+                ];
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash('success', "La sortie a été modifiée avec succès");
+
+            return $this->redirectToRoute('main_home');
+
+        }
+
+        return $this->render('sortie/create.html.twig', [
+            'sortie' => $sortie,
+            'campus'=> $campus,
+            'latitude'=> $latitude,
+            'longitude'=>$longitude,
+            'lieu'=>$lieu,
+            'ville' =>$ville,
+            'sortieForm' => $sortieForm->createView(),
+            'error' => $error
+
+
+        ]);
+
+
+    }
+
+
 
 
 }

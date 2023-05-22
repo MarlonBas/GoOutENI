@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Repository\CampusRepository;
 use App\Repository\LieuRepository;
 use App\Repository\VilleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -54,6 +55,13 @@ class SortieType extends AbstractType
                 'query_builder' => fn(LieuRepository $lieuRepository) => $lieuRepository->createQueryBuilder('l')
                     ->orderBy('l.nom', 'ASC')
             ])
+            ->add('campus', EntityType::class,[
+                'class' =>Campus::class,
+                'choice_label' => 'nom',
+                'attr'=>['class'=>'form-select form-select-lg mb-3'],
+                'query_builder' => fn(CampusRepository $campusRepository) => $campusRepository->createQueryBuilder('c')
+                    ->orderBy('c.nom', 'ASC')
+        ])
             ->add( 'enregistrer', SubmitType::class, [
                 'label' =>'Enregistrer',
                 'attr'=>['class'=>'btn btn-primary']

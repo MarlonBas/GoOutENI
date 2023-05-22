@@ -36,6 +36,14 @@
                 <div class="row">
                     {% include('inc/navadmin.html.twig') %}
                 </div>
+                {# Lis et renvoit tous les messages flash #}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="flash flash-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
             </div>
         </header>
         <main class="bg-custom-color p-4">
@@ -43,6 +51,7 @@
                 {% block body %}{% endblock %}
             </div>
         </main>
+
     {# pied-de-page du site #}
     <footer class="container-fluid">
             © Go out ! (project) {{ "now"|date("Y") }}
