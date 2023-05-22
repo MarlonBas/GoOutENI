@@ -1,27 +1,22 @@
-body {    background-color:#FFFFFF;
-    font-family: 'Calibri', serif;
+html {
+    font-family: 'Roboto', sans-serif;
+}
+body {
+    background-color:#FFFFFF;
     margin: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-
 }
 .container {
-    max-width: 1000px;
     margin: auto;
-    padding: 5px;
-
-
 }
 body > .container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
-header h1 {
-    margin: 0 0 10px 0;
-    flex: 2;
-}
+
 .header-logo {
     font-size: 3rem;
     font-weight: normal;
@@ -29,31 +24,31 @@ header h1 {
 
 header a {
     text-decoration: none;
-    color: tomato;
+    color: #FF6B6B;
+    font-weight: bold;
 }
+
+header {
+    background-color:#FFFFFF;
+    border-bottom: 1px solid #FF6B6B;
+}
+
 header nav a:hover {
     text-decoration: underline;
 }
 .header-logo img {
-    max-width: 280px;
+    max-width: 300px;
 }
 
 .header-top {
     display:flex;
     justify-content: left;
     background-color:#FFFFFF;
-
-
 }
+
 footer{
     text-align: center;
-    padding: 2rem 0;
-
-}
-footer > .container {
-    background-color:tomato;
-    border-radius: 30px;
-
+    background-color:#FF6B6B;
 }
 
 nav ul {
@@ -64,12 +59,37 @@ nav ul {
 
 nav li {
     margin-right: 1rem;
+    font-weight: bold;
+}
+
+.extraspace {
+    margin-right: 3rem;
 }
 
 main {
-
-    border-radius: 10px;
     flex: 1;
-    padding: 1rem 0;
+}
 
+.adminnav {
+    background-color: #ffc000;
+    margin-bottom: 0px;
+}
+
+.adminnav a {
+    background-color: #ffc000;
+    color: #2c2c2c;
+}
+
+.biglinks {
+    font-size: 50px;
+    font-family: 'Oswald', sans-serif;
+}
+
+.custom-btn {
+    background-color: #FF6B6B;
+    color: #FFFFFF;
+}
+
+.bg-custom-color {
+    background-color: rgba(255, 107, 107, 0.15);
 }
