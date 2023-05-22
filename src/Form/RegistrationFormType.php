@@ -43,7 +43,7 @@ class RegistrationFormType extends AbstractType
                 'class' => Campus::class,
                 // quelle propriété utiliser pour les <option> dans la liste déroulante ?
                 'choice_label' => 'nom',
-                'placeholder' => '--Choississez votre campus--'])
+                'placeholder' => '--Choississez votre campus--', 'attr'=>['class'=>'form-select form-select-lg mb-3']])
 
             ->add('motdepasse', RepeatedType::class, ['type'=> PasswordType::class, 'label'=>'Mot de Passe',
                 // instead of being set onto the object directly,
@@ -87,7 +87,7 @@ class RegistrationFormType extends AbstractType
                             ]),
                         ],
                     ])
-                    ->add('roles', ChoiceType::class, ['choices' => ['ROLE_USER' => 'ROLE_USER', 'ROLE_ORGA' => 'ROLE_ORGA', 'ROLE_ADMIN' => 'ROLE_ADMIN']])
+                    ->add('roles', ChoiceType::class, ['choices' => ['ROLE_USER' => 'ROLE_USER', 'ROLE_ORGA' => 'ROLE_ORGA', 'ROLE_ADMIN' => 'ROLE_ADMIN'], 'attr'=>['class'=>'form-select form-select-lg mb-3']])
                     ->get('roles')
                     ->addModelTransformer(new CallbackTransformer(
                         function ($rolesArray) {
