@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="container">
+        <br><h1 style="text-align: center">Gérer les lieux</h1><hr>
+    </div><br>
+
+    <h3>Filtrer les lieux</h3>
+    <div class="input-group mb-3">
+        <input type="text" id="searchWord" class="form-control" placeholder="ex : Balade, velo, parc ..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="button">Rechercher</button>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Lieu</th>
+            <th scope="col">Rue</th>
+            <th scope="col">Ville</th>
+        </tr>
+
+        </thead>
+        <tbody id="tBody">
+        </tbody>
+
+    </table>
+    <table class="table">
+        <thead class="thead-dark">
+        {% for l in lieu %}
+        <tr>
+            <td scope="col">{{ l.nom }}</td>
+            <td scope="col">{{ l.rue }}</td>
+            <td scope="col">
+                {% for v in ville %}
+                    {% if (l.ville == v) %}
+                        {{ v.nom}}
+                        {{ v.codepostal }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+
+        </tr>
+        {% endfor %}
+        </thead>
+        <tbody id="tBody">
+        </tbody>
+
+    </table>
+
+    <br><h3>Ajouter un Lieu</h3>
+    <div>
+        {{ form(lieuForm) }}
+
+    </div>
+<br>
+    <template id="lineData">
+        <tr>
+            <td> </td>
+            <!--<td><button id="btnModifier" class="btn btn-info">Modifier</button> <a href="" role="button" id="btnDelete" class="btn btn-danger">Supprimer</a></td>-->
+            <td>
+                <button onclick="modifier(this)" role="button" id="btnModify" class="btn btn-info">Modifier</button>
+                <button onclick="supprimer(this)" role="button" id="btnDelete" class="btn btn-danger">Supprimer</button>
+            </td>
+        </tr>
+    </template>
+
+{% endblock %}
+
+{% block title %}
+    Gérer les lieux de sortie |  {{ parent() }}
+{% endblock %}

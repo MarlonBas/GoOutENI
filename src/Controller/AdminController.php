@@ -111,4 +111,6 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('app_admin_register');
     }
+
+
 }

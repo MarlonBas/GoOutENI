@@ -149,4 +149,13 @@ class Lieu
 
         return $this;
     }
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        $toS = "".$this->getNom()." à ".$this->getVille()->__toString()."";
+        return $toS;
+
+    }
 }
+

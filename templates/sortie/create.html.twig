@@ -56,6 +56,7 @@
 <div class="row">
     <div class="col-md-6 mb-4">
         <div class="form-outline mb-4">
+            Campus :
         {% if sortie.nom != null %}
             {{ form_widget(sortieForm.campus)}}
         {% else %}
@@ -84,5 +85,10 @@
 {% endblock %}
 
 {% block title %}
-    Organiser une sortie |  {{ parent() }}
+    {% if sortie.nom != null %}
+        Modifier votre sortie |  {{ parent() }}
+
+    {% else %}
+        Organiser une sortie |  {{ parent() }}
+    {% endif %}
 {% endblock %}

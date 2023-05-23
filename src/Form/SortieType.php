@@ -48,7 +48,9 @@ class SortieType extends AbstractType
            ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'label' => 'Lieu : ',
-                'choice_label' => 'nom',
+                'choice_label' => function ($lieu) {
+                    return $lieu->__toString();
+                },
                 'placeholder' => 'Selectionner le lieu de la sortie',
                 'attr'=>['class'=>'form-select form-select-m mb-3'],
                 //'disabled'=> $ville === null,
