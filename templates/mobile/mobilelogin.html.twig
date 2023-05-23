@@ -1,0 +1,49 @@
+{# {% if(is_mobile() ? 'mobile/login.hmtl.twig' : 'login.html.twig') %}#}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="col"></div>
+        <div class="col"></div>
+        {% if not app.user %}
+            <img src="{{ asset('img/logorecolor.png') }}" alt="Go out Logo" class="mb-4">
+        {% endif %}
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    Vous êtes connectée comme {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <h1 class="h3 mb-3 font-weight-normal">Veuillez-vous identifier</h1>
+            <label for="inputEmail">Email</label>
+            <input type="email" value="{{last_username}}" name="email" id="inputEmail" class="form-control form-control-sm" autocomplete="email" required autofocus>
+            <label for="inputPassword">Mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control form-control-sm" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}">
+
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                </label>
+            </div>
+
+
+            <button class="btn btn-lg custom-btn" type="submit">
+                Connexion
+            </button>
+        </form>
+    </div>
+    <div class="col"></div>
+    </div>
+{% endblock %}
