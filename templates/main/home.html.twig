@@ -5,12 +5,13 @@
     {{ var | raw }} #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div class="alert-{{ label }}">
+            <div class="alert alert-danger" role="alert">
                 {{ message }}
             </div>
         {% endfor %}
     {% endfor %}
-
+    <div><b>Date du jour : </b> {{ "now" | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY")}}</div>
+    <div><b>Participant : </b>{{ app.user.prenom }}</div>
     <table class="table table-responsive">
         <thead class="thead-dark">
             <tr>
@@ -28,8 +29,8 @@
         <tbody>
             <tr scope="row">
                 <td>{{ s.nom }}</td>
-                <td>{{ s.dateHeureDebut | date}}</td>
-                <td>{{ s.dateLimiteInscription | date}}</td>
+                <td>{{ s.dateHeureDebut | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY HH:mm")}}</td>
+                <td>{{ s.dateLimiteInscription | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY HH:mm")}}</td>
                 <td>{{ s.participants | length }}/ {{ s.nbInscriptionMax}}</td>
                 <td>{{ s.etat.libelle }}</td>
                 <td>

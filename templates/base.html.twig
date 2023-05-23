@@ -4,8 +4,6 @@
         <meta charset="UTF-8">
         <title>{% block title %}Go Out !{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {#   <!--====== Title ======-->
-        <title>404 Page | ClassiList Classified Ads Template</title>#}
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +15,7 @@
 
     </head>
     <body>
-        <header >
+        <header>
 
 
                    {# Je vais plutôt inclure le logo dans la bar de nav, beaucoup de sites font ça.
@@ -51,27 +49,7 @@
         <div class="text-center p-3">
             © Go out ! (project) {{ "now"|date("Y") }}
         </div>
-    </footer  >
-<script type="text/javascript">
-    (() => {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-            </script>
+    </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

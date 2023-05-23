@@ -129,6 +129,8 @@ class UserController extends AbstractController
 
             $user->removeSorty($sortie);
             $sortie->removeParticipant($user);
+        $this->addFlash('succes', "Vous vous êtes désisté de la sortie");
+
 
 
         $entityManager->flush($sortie);
