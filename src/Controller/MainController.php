@@ -13,10 +13,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 class MainController extends AbstractController
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
     /**
      * @Route("/home", name="main_home")
      */
@@ -34,11 +41,11 @@ class MainController extends AbstractController
 
         $sorties = $qb->getQuery()->getResult();
 
-        // GESTION DE LA SESSION ET INFO USER
-        // -!! COMMENT OBETNIR LE USER ? !!-
-        /* $user = $session->get('user');
-        $sortiesInscrit = $user->getSorties();
-        $sortiesOrganisees = $user->getsortiesOrganisees(); */
+        //GESTION DE LA SESSION ET INFO USER
+        $token = $this->tokenStorage->getToken();
+        $user = $token->getUser();
+        $sortiesInscrit = $user->getSorties()->toArray();
+        $sortiesOrganisees = $user->getsortiesOrganisees()->toArray();
 
 
         // GESTION DE LA BAR DE RECHERCHE
@@ -71,13 +78,16 @@ class MainController extends AbstractController
             }
 
             if ($parametresDeRecherche->isCheckOrganisateur()) {
-                //$sorties = $this->checkOrganisateurFilter($sortiesOrganisees, $sorties);
+                $sorties = $this->checkOrganisateurFilter($sortiesOrganisees, $sorties);
+            } else {
+                $sorties = $this->NoCheckOrganisateurFilter($sortiesOrganisees, $sorties);
             }
+
             if ($parametresDeRecherche->isCheckInscrit()) {
-                //$sorties = $this->checkInscritFilter($sortiesInscrit, $sorties);
+                $sorties = $this->checkInscritFilter($sortiesInscrit, $sorties);
             }
             if ($parametresDeRecherche->isCheckNonInscrit()) {
-                //$sorties = $this->checkNonInscritFilter($sortiesInscrit, $sorties);
+                $sorties = $this->checkNonInscritFilter($sortiesInscrit, $sorties);
             }
             if ($parametresDeRecherche->isCheckPassee()) {
                 $sorties = $this->checkPasseeFilter($sorties);
@@ -127,6 +137,14 @@ class MainController extends AbstractController
     {
         $sortiesFiltres = array_filter($sorties, function ($sortie) use ($sortiesOrganisees) {
             return in_array($sortie, $sortiesOrganisees);
+        });
+        return $sortiesFiltres;
+    }
+
+    private function NoCheckOrganisateurFilter($sortiesOrganisees, $sorties)
+    {
+        $sortiesFiltres = array_filter($sorties, function ($sortie) use ($sortiesOrganisees) {
+            return !in_array($sortie, $sortiesOrganisees);
         });
         return $sortiesFiltres;
     }
