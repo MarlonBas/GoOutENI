@@ -98,11 +98,11 @@ class UserController extends AbstractController
 
             $entityManager->flush($sortie);
             $entityManager->flush($user);
-            $this->addFlash('succes', "Vous êtes inscrits");
+            $this->addFlash('success', "Vous êtes inscrits");
 
 
         } else {
-            $this->addFlash('failed', "Les inscriptions ne sont pas ouvertes");
+            $this->addFlash('danger', "Les inscriptions ne sont pas ouvertes");
 
         }
 
@@ -129,7 +129,7 @@ class UserController extends AbstractController
 
             $user->removeSorty($sortie);
             $sortie->removeParticipant($user);
-        $this->addFlash('succes', "Vous vous êtes désisté de la sortie");
+        $this->addFlash('danger', "Vous vous êtes désisté de la sortie");
 
 
 
