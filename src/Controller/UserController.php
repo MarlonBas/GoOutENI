@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
-use App\Entity\Sortie;
+
 use App\Form\RegistrationFormType;
 use App\Form\UploadImageFormType;
 use App\Repository\ParticipantRepository;
@@ -88,20 +87,24 @@ class UserController extends AbstractController
 
 
         $user = $this->tokenStorage->getToken()->getUser();
+        $userId = $user->getId();
+        $user=$participantRepository->find($userId);
+        $sortie =$sortieRepository->find($id);
 
+        if($sortie->getEtat()->getId()==2) {
 
-            $userId = $user->getId();
-
-            $user=$participantRepository->find($userId);
-
-            $sortie =$sortieRepository->find($id);
             $user->addSorty($sortie);
             $sortie->addParticipant($user);
 
+            $entityManager->flush($sortie);
+            $entityManager->flush($user);
+            $this->addFlash('succes', "Vous êtes inscrits");
 
-        $entityManager->flush($sortie);
 
-        $entityManager->flush($user);
+        } else {
+            $this->addFlash('failed', "Les inscriptions ne sont pas ouvertes");
+
+        }
 
         return $this->redirectToRoute('main_home');
 

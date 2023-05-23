@@ -3,9 +3,15 @@
     {# A quoi ça sert ça ?
     {% set var ='<strong>titre en gras</strong>' %}
     {{ var | raw }} #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
-    <div>{{ "now" | date( "d'm'Y") }}</div>
-    <table class="table">
+    <table class="table table-responsive">
         <thead class="thead-dark">
             <tr>
                 <th scope="col"> Nom de la sortie</th>
@@ -27,10 +33,16 @@
                 <td>{{ s.participants | length }}/ {{ s.nbInscriptionMax}}</td>
                 <td>{{ s.etat.libelle }}</td>
                 <td>
-
+                    {% for p in s.participants %}
+                         {% if(app.user == p) %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                            </svg>
+                         {% endif%}
+                    {% endfor %}
                 </td>
-                <td>{{ s.organisateur.nom }}</td>
-                <td> {% if(is_granted(['ROLE_ORGA', 'ROLE_ADMIN'])) %}
+                <td><a href="{{ path('user_profil_participant', {'id': s.organisateur.id}) }}"> {{ s.organisateur.nom }} </a></td>
+                <td> {% if(is_granted('ROLE_ADMIN') or is_granted('ROLE_ORGA') ) %}
                         {% if(s.etat.id !=1) %}
                             <a href="#">Annuler</a>
                             <a href="#">Afficher</a>
@@ -38,10 +50,12 @@
                             <a href="#">Modifier</a>
                             <a href="#">Publier</a>
                         {% endif %}
-                    {% endif %}
-                    {% if(is_granted('ROLE_USER')) %}
-                         <a href="{{ path('user_inscription', {'id': s.id})}}">S'inscrire</a>
-                        <a href="{{ path('user_desistement', {'id': s.id})}}">Se Désister</a>
+                    {% else %}
+
+                            <a href="{{ path('user_desistement', {'id': s.id})}}">Se Désister</a>
+
+                            <a href="{{ path('user_inscription', {'id': s.id})}}">S'inscrire</a>
+
                     {% endif %}
                 </td>
             </tr>

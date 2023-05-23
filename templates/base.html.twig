@@ -38,13 +38,7 @@
         </header>
 
         {# Lis et renvoit tous les messages flash #}
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert-{{ label }}" align="center">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
+
 
         <main class="bg-custom-color p-4">
             <div class="container text-center">
