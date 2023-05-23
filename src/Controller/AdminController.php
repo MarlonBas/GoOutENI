@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\RegistrationFormType;
+use App\Repository\ParticipantRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -49,6 +50,8 @@ class AdminController extends AbstractController
         $user = new Participant();
         $user->setIsVerified(false);
         $user->setActif(true);
+
+
 
         $isGrantedUser = $this->isGranted('ROLE_ADMIN');
 
@@ -112,5 +115,43 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_register');
     }
 
+    /**
+     * @Route("/users", name="liste_users")
+     */
+    public function listeparticipants(ParticipantRepository $participantRepository): Response
+    {
+        $users = $participantRepository->findAll();
+        return $this->render('user/listeparticipants.html.twig', ['users' => $users
+        ]);
+    }
+    /**
+     * @Route("/user/desactiver/{id}", name="desactiver_user", requirements={"id"="\d+"})
+     */
+    public function desactiverUser(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $participantRepository->find($id);
+        $user->setActif(false);
+        $entityManager->flush($user);
+        $this->addFlash('success', "L'utilisateur est mainteant inactif");
+
+        return $this->redirectToRoute('app_admin_liste_users');
+
+
+
+    }
+
+    /**
+     * @Route("/user/activer/{id}", name="activer_user", requirements={"id"="\d+"})
+     */
+    public function activerUser(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $participantRepository->find($id);
+        $user->setActif(true);
+        $entityManager->flush($user);
+        $this->addFlash('success', "L'utilisateur est maintenant actif");
+
+        return $this->redirectToRoute('app_admin_liste_users');
+
+    }
 
 }

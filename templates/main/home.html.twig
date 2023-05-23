@@ -1,6 +1,7 @@
-
 {% extends 'base.html.twig' %}
 {% block body %}
+
+
     {# A quoi ça sert ça ?
     {% set var ='<strong>titre en gras</strong>' %}
     {{ var | raw }} #}
@@ -69,6 +70,7 @@
     {% if(is_granted('ROLE_ADMIN') or is_granted('ROLE_ORGA') ) %}
         <button  class="btn btn-primary"  onclick="window.location.href ='{{ path('sortie_create') }}' " >Créer une Sortie</button>
     {% endif %}
-{% include('inc/recherche.html.twig') %}
+            {% include('inc/recherche.html.twig') %}
+
 {% endblock %}
 {% block title %}{{ parent() }} | Home {% endblock%}

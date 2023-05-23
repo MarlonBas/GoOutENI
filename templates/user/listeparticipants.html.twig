@@ -12,6 +12,14 @@
                     <h5 class="card-title">{{u.nom}}</h5>
                     <p class="card-text"> {{ u.prenom }}</p>
                     <a href="{{ path('user_profil_participant', {'id': u.id}) }}" class="btn btn-dark" title="Details profil"> Details </a>
+                    <p>{% if(u.actif==1) %}
+                    <p> Actif</p>
+                            <a href="{{ path('app_admin_desactiver_user', {'id' : u.id}) }}", class="btn btn-dark" title="Désactiver un compte utilisateur">Rendre Inactif</a>
+                        {% else %}
+                            <p>Inactif</p>
+                            <a href="{{ path('app_admin_activer_user', {'id' : u.id}) }}", class="btn btn-dark" title="Activer un compte utilisateur">Rendre Actif</a>
+                        {% endif %}
+                    </p>
                     <br>
                 </div>
             </div>
