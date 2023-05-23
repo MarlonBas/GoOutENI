@@ -18,7 +18,7 @@ class Recherche
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="Campus", length=100, nullable=true)
      */
     private $campus;
 
@@ -62,12 +62,12 @@ class Recherche
         return $this->id;
     }
 
-    public function getCampus(): ?string
+    public function getCampus(): ?Campus
     {
         return $this->campus;
     }
 
-    public function setCampus(string $campus): self
+    public function setCampus(Campus $campus): self
     {
         $this->campus = $campus;
 

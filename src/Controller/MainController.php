@@ -54,13 +54,13 @@ class MainController extends AbstractController
 
         if ($rechercheForm->isSubmitted() && $rechercheForm->isValid()) {
             $parametresDeRecherche = $rechercheForm->getData();
+            dump($parametresDeRecherche);
 
             // APPELLE DES FONCTIONS FILTRES - (avec la fonction array_filter() )
-            // Necessite debug
-            /*$campus = $parametresDeRecherche->getCampus();
+            $campus = $parametresDeRecherche->getCampus();
             if ($campus !== null && $campus !== '') {
                 $sorties = $this->campusFilter($campus, $sorties);
-            }*/
+            }
 
             $stringRecherche = $parametresDeRecherche->getStringRecherche();
             if ($stringRecherche !== null && $stringRecherche !== '') {
@@ -79,8 +79,6 @@ class MainController extends AbstractController
 
             if ($parametresDeRecherche->isCheckOrganisateur()) {
                 $sorties = $this->checkOrganisateurFilter($sortiesOrganisees, $sorties);
-            } else {
-                $sorties = $this->NoCheckOrganisateurFilter($sortiesOrganisees, $sorties);
             }
 
             if ($parametresDeRecherche->isCheckInscrit()) {
@@ -137,14 +135,6 @@ class MainController extends AbstractController
     {
         $sortiesFiltres = array_filter($sorties, function ($sortie) use ($sortiesOrganisees) {
             return in_array($sortie, $sortiesOrganisees);
-        });
-        return $sortiesFiltres;
-    }
-
-    private function NoCheckOrganisateurFilter($sortiesOrganisees, $sorties)
-    {
-        $sortiesFiltres = array_filter($sorties, function ($sortie) use ($sortiesOrganisees) {
-            return !in_array($sortie, $sortiesOrganisees);
         });
         return $sortiesFiltres;
     }
