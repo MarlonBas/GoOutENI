@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Recherche;
 use App\Form\RechercheType;
 use App\Form\RegistrationFormType;
+use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,6 +34,13 @@ class MainController extends AbstractController
 
         $sorties = $qb->getQuery()->getResult();
 
+        // GESTION DE LA SESSION ET INFO USER
+        // -!! COMMENT OBETNIR LE USER ? !!-
+        /* $user = $session->get('user');
+        $sortiesInscrit = $user->getSorties();
+        $sortiesOrganisees = $user->getsortiesOrganisees(); */
+
+
         // GESTION DE LA BAR DE RECHERCHE
         $rechercheForm = $this->createForm(RechercheType::class);
         $rechercheForm->handleRequest($request);
@@ -39,15 +48,16 @@ class MainController extends AbstractController
         if ($rechercheForm->isSubmitted() && $rechercheForm->isValid()) {
             $parametresDeRecherche = $rechercheForm->getData();
 
-            // APPELLE DES FONCTIONS FILTRES - Il n'y a que le date de debut et de fin
-            $campus = $parametresDeRecherche->getCampus();
+            // APPELLE DES FONCTIONS FILTRES - (avec la fonction array_filter() )
+            // Necessite debug
+            /*$campus = $parametresDeRecherche->getCampus();
             if ($campus !== null && $campus !== '') {
-                //$sorties = $this->campusFilter($campus, $sorties);
-            }
+                $sorties = $this->campusFilter($campus, $sorties);
+            }*/
 
             $stringRecherche = $parametresDeRecherche->getStringRecherche();
             if ($stringRecherche !== null && $stringRecherche !== '') {
-                //$sorties = $this->stringRechercheFilter($stringRecherche, $sorties);
+                $sorties = $this->stringRechercheFilter($stringRecherche, $sorties);
             }
 
             $dateDebut = $parametresDeRecherche->getDateDebut();
@@ -61,16 +71,16 @@ class MainController extends AbstractController
             }
 
             if ($parametresDeRecherche->isCheckOrganisateur()) {
-                //$sorties = $this->checkOrganisateurFilter(, $sorties);
+                //$sorties = $this->checkOrganisateurFilter($sortiesOrganisees, $sorties);
             }
             if ($parametresDeRecherche->isCheckInscrit()) {
-                //$sorties = $this->checkInscritFilter(, $sorties);
+                //$sorties = $this->checkInscritFilter($sortiesInscrit, $sorties);
             }
             if ($parametresDeRecherche->isCheckNonInscrit()) {
-                //$sorties = $this->checkNonInscritFilter(, $sorties);
+                //$sorties = $this->checkNonInscritFilter($sortiesInscrit, $sorties);
             }
             if ($parametresDeRecherche->isCheckPassee()) {
-                //$sorties = $this->checkPasseeFilter(, $sorties);
+                $sorties = $this->checkPasseeFilter($sorties);
             }
         }
         // RENDER DE LA PAGE
@@ -78,12 +88,30 @@ class MainController extends AbstractController
             ['recherche' => $rechercheForm->createView(), 'sorties'=>$sorties]);
     }
 
+    private function campusFilter($campus, $sorties)
+    {
+        $sortiesFiltres = array_filter($sorties, function ($sortie) use ($campus) {
+            return $sortie->getCampus() === $campus;
+        });
+        return $sortiesFiltres;
+    }
+
+    private function stringRechercheFilter($stringRecherche, $sorties)
+    {
+        $sortiesFiltres = array_filter($sorties, function ($sortie) use ($stringRecherche) {
+            $nomContains = stripos($sortie->getNom(), $stringRecherche) !== false;
+            $infosSortieContains = stripos($sortie->getInfosSortie(), $stringRecherche) !== false;
+
+            return $nomContains || $infosSortieContains;
+        });
+        return $sortiesFiltres;
+    }
+
     private function dateDebutFilter($dateDebut, $sorties)
     {
         $sortiesFiltres = array_filter($sorties, function ($sortie) use ($dateDebut) {
             return $sortie->getDateHeureDebut() >= $dateDebut;
         });
-
         return $sortiesFiltres;
     }
 
@@ -91,6 +119,39 @@ class MainController extends AbstractController
     {
         $sortiesFiltres = array_filter($sorties, function ($sortie) use ($dateFin) {
             return $sortie->getDateHeureDebut() <= $dateFin;
+        });
+        return $sortiesFiltres;
+    }
+
+    private function checkOrganisateurFilter($sortiesOrganisees, $sorties)
+    {
+        $sortiesFiltres = array_filter($sorties, function ($sortie) use ($sortiesOrganisees) {
+            return in_array($sortie, $sortiesOrganisees);
+        });
+        return $sortiesFiltres;
+    }
+
+    private function checkInscritFilter($sortiesInscrit, $sorties)
+    {
+        $sortiesFiltres = array_filter($sorties, function ($sortie) use ($sortiesInscrit) {
+            return in_array($sortie, $sortiesInscrit);
+        });
+        return $sortiesFiltres;
+    }
+
+    private function checkNonInscritFilter($sortiesInscrit, $sorties)
+    {
+        $sortiesFiltres = array_filter($sorties, function ($sortie) use ($sortiesInscrit) {
+            return !in_array($sortie, $sortiesInscrit);
+        });
+        return $sortiesFiltres;
+    }
+
+    private function checkPasseeFilter($sorties)
+    {
+        $ajd = date('Y-m-d');
+        $sortiesFiltres = array_filter($sorties, function ($sortie) use ($ajd) {
+            return $sortie->getDateHeureDebut() < $ajd;
         });
         return $sortiesFiltres;
     }
