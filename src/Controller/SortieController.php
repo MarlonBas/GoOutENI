@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Form\VilleFormType;
 use App\Form\LieuFormType;
@@ -54,17 +55,21 @@ class SortieController extends AbstractController
         }
 
         $campus = $userCo->getCampus();
-        $listeVille = $villeRepository->findAll();
+        $ville = $listeVille = $villeRepository->findAll();
+        $lieu = $lieuRepository->findAll();
 
         //on initialise notre variable erreur
         $error = "";
         $sortie = new Sortie();
+        $newLieu =  new Lieu();
 
         //Formulaire ajout de sortie
         $sortieForm = $this->createForm(SortieType ::class, $sortie);
+        $lieuForm = $this->createForm(LieuType::class, $newLieu);
 
         //récupération des données du formulaire
         $sortieForm->handleRequest($request);
+        $lieuForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
 
@@ -85,11 +90,12 @@ class SortieController extends AbstractController
                         'value' => "La date de limite d'inscription ne peut pas etre aprés la date de la sortie"
                     ];
                 }
+
                 if ($error == "") {
                     //On enregistrer la sortie
                     $sortie->setOrganisateur($userCo);
                     $sortie->setEtat($etat);
-                    $sortie->setCampus($userCampus);
+                    $sortie->setCampus($campus);
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($sortie);
                     $em->flush();
@@ -106,6 +112,10 @@ class SortieController extends AbstractController
             'userCo' => $userCo,
             'campus' => $campus,
             'error' => $error,
+            "lieu" => $lieu,
+            "lieuForm" => $lieuForm->createView(),
+            "ville" => $ville
+
         ]);
     }
 
