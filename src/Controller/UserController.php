@@ -45,7 +45,7 @@ class UserController extends AbstractController
             ["isGrantedUser" => $isGrantedUser]);
         $form->handleRequest($request);
 
-      //  if ($form->isSubmitted() && $form->isValid()) {
+       if ($form->isSubmitted() && $form->isValid()) {
 
             $uploadedFile = $form->get('image')->getData();
             if ($uploadedFile) {
@@ -60,7 +60,7 @@ class UserController extends AbstractController
             $this->addFlash('success', "Modification de profil faite");
 
 
-      //  }
+       }
 
             return $this->render('user/monprofil.html.twig', [
                     'registrationForm' => $form->createView(), 'user' => $user]
