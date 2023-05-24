@@ -18,7 +18,7 @@ class Recherche
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Campus::class)
      */
     private $campus;
 
@@ -57,6 +57,7 @@ class Recherche
      */
     private $checkPassee;
 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -67,7 +68,7 @@ class Recherche
         return $this->campus;
     }
 
-    public function setCampus(int $campus): self
+    public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
 
@@ -157,5 +158,4 @@ class Recherche
 
         return $this;
     }
-
 }
