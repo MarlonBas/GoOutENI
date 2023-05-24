@@ -162,7 +162,7 @@ class SortieController extends AbstractController
                 $etat = $etatRepository->find(1);
             }
             if ($sortieForm->getClickedButton() && 'publier' === $sortieForm->getClickedButton()->getName()) {
-                $etat = $etatRepository > find(2);
+                $etat = $etatRepository-> find(2);
             }
 
             $dateDebut = $sortieForm->get('dateHeureDebut');
