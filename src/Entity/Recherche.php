@@ -67,7 +67,7 @@ class Recherche
         return $this->campus;
     }
 
-    public function setCampus(Campus $campus): self
+    public function setCampus(int $campus): self
     {
         $this->campus = $campus;
 
