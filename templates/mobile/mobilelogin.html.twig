@@ -10,6 +10,14 @@
         {% if not app.user %}
             <img src="{{ asset('img/logorecolor.png') }}" alt="Go out Logo" class="mb-4">
         {% endif %}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <form method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

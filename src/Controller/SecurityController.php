@@ -22,11 +22,14 @@ class SecurityController extends AbstractController
         //     return $this->redirectToRoute('target_path');
         // }
         //  $string = $this->getRequest()->getCookie('REMEMBERME');
+
+
+
         $mobileDetect = new MobileDetect();
-
-
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+
+
         if ($mobileDetect->isMobile()) {
             // get the login error if there is one
             // last username entered by the user
@@ -45,8 +48,10 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="app_logout")
      */
-    public function logout(): void
+    public function logout(Request $request): Response
     {
+
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+
     }
 }

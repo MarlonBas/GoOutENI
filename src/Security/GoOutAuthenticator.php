@@ -27,6 +27,7 @@ class GoOutAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(UrlGeneratorInterface $urlGenerator)
     {
         $this->urlGenerator = $urlGenerator;
+
     }
 
     public function authenticate(Request $request): Passport
@@ -54,7 +55,6 @@ class GoOutAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-
         // authentification réussie - redirection page d'accueil
         return new RedirectResponse($this->urlGenerator->generate('main_home'));
     }
@@ -62,6 +62,10 @@ class GoOutAuthenticator extends AbstractLoginFormAuthenticator
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+    }
+
+    private function addFlash(string $string, string $string1)
+    {
     }
 
 }

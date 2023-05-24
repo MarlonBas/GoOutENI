@@ -22,12 +22,19 @@ use Symfony\Component\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @Route("/sortie", name="sortie_")
  */
 class SortieController extends AbstractController
 {
+    private $authorizationChecker;
+
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
     /**
      * @Route("", name="home")
      */
@@ -155,7 +162,6 @@ class SortieController extends AbstractController
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
-        dump($sortie);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             //Recuperation du choix si Modification simple ou Si Publication
@@ -199,8 +205,8 @@ class SortieController extends AbstractController
             'sortieForm' => $sortieForm->createView(),
             'error' => $error,
             "lieuForm" => $lieuForm->createView(),
-
         ]);
+
     }
     /**
      * @Route("/detail/{id}", name="detail")
@@ -248,7 +254,21 @@ class SortieController extends AbstractController
      */
     public function annulation(int $id, SortieRepository $sortieRepository): Response
     {
+        $userCo =  $this->getUser();
         $sortie = $sortieRepository->find($id);
+        $userOrganisateur = $sortie->getOrganisateur();
+        if ($this->authorizationChecker->isGranted('ROLE_ADMIN', $userCo)) {
+            // L'utilisateur a le rôle "admin"
+            // Votre code ici
+
+        }
+
+        if($userCo != $userOrganisateur && !$this->authorizationChecker->isGranted('ROLE_ADMIN', $userCo)){
+            $this->addFlash('danger', "Redirection vous n'avez pas accés a cette page");
+            return $this->redirectToRoute('main_home');
+        }
+
+
         $dateSortie = $sortie->getDateHeureDebut()->format('d-m-Y H:i');
         $campus = $sortie->getCampus();
         $lieu = $sortie->getLieu();
@@ -270,6 +290,7 @@ class SortieController extends AbstractController
      * @Route("/annulersortie/{id}", name="confirm_annulation")
      */
     public function annulerSortie(Request $request,int $id){
+
 
         // Récupérer l'entité de la sortie à annuler depuis la base de données
         $entityManager = $this->getDoctrine()->getManager();

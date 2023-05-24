@@ -2,11 +2,10 @@
 {% extends 'base.html.twig' %}
 
 
-
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <div class="container">
+        <div class="container">
     <div class="col"></div>
     <div class="col"></div>
     {% if not app.user %}
@@ -16,6 +15,13 @@
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
 
     {% if app.user %}
         <div class="mb-3">

@@ -2,9 +2,6 @@
 {% block body %}
 
 
-    {# A quoi ça sert ça ?
-    {% set var ='<strong>titre en gras</strong>' %}
-    {{ var | raw }} #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ label }}" role="alert">
@@ -54,7 +51,6 @@
                             <a href="#">Publier</a>
                         {% endif %}
                     {% else %}
-
                             <a href="{{ path('user_desistement', {'id': s.id})}}">Se Désister</a>
 
                             <a href="{{ path('user_inscription', {'id': s.id})}}">S'inscrire</a>

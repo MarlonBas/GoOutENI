@@ -90,6 +90,11 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $lastRole;
+
     public function __construct()
     {
         $this->sortiesOrganisees = new ArrayCollection();
@@ -338,6 +343,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getLastRole(): ?string
+    {
+        return $this->lastRole;
+    }
+
+    public function setLastRole(?string $lastRole): self
+    {
+        $this->lastRole = $lastRole;
 
         return $this;
     }
