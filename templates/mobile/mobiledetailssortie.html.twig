@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{%  block title %} {{ sortie.nom |upper }} |  {{ parent() }}{%  endblock %}
+
+{% block body %}
+
+    <h2 class="text-center">Détail de la sortie : {{ sortie.nom }}</h2>
+    <br>
+    <div class="card-body px-4 py-5 px-md-5" align="center">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <label for="nom">Nom : </label> {{ sortie.nom | capitalize}}
+            </div>
+            <div class="col-md-6 mb-4">
+                <label for="nom" >Campus  : </label> {{ campus.nom |capitalize}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <label for="dateSortie">Date et heur de la sortie : </label> {{ dateSortie }}
+            </div>
+            <div class="col-md-6 mb-4">
+                <label for="lieu">Lieu : </label> {{ lieu.nom |capitalize}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <label for="dateLimit">Date limite d'inscription : </label> {{ dateLimite }}
+            </div>
+            <div class="col-md-6 mb-4">
+                <label for="dateLimit">Rue : </label> {{ lieu.rue }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <label for="nbPlace">Nombre d'inscrits :</label> {{ participants }} / {{ sortie.nbInscriptionMax }}
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <label for="nbPlace">Ville :</label> {{ lieu.ville}}
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6 mb-4">
+                <label for="duree">Durée : </label> {{ sortie.duree }} minutes
+            </div>
+            <div class="col-md-6 mb-4">
+                <label for="duree">Longitude : </label> {{ lieu.longitude}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <label for="description">Description : </label> {{ sortie.infosSortie}}
+            </div>
+            <div class="col-md-6 mb-4">
+                <label for="description">Latitude : </label> {{ lieu.latitude}}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        {% if participants !=0 %}
+            <h3 class="text-center">Liste des participants</h3>
+
+            <table class="table">
+                <thead  class="thead-dark">
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Nom </th>
+                </tr>
+                {% for participant in sortie.participants %}
+                    <tr>
+                        <td>{{ participant.pseudo }}</td>
+                        <td>{{ participant.nom |capitalize}} {{ participant.prenom |capitalize}} </td>
+                    </tr>
+                {% endfor %}
+                </thead>
+            </table>
+        {% else %}
+            <div class="alert-success">
+                <h5> Il n'y a aucun participant pour le moment</h5></div>
+        {% endif %}
+    </div>
+
+{% endblock %}

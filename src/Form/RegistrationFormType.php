@@ -44,7 +44,6 @@ class RegistrationFormType extends AbstractType
                 // quelle propriété utiliser pour les <option> dans la liste déroulante ?
                 'choice_label' => 'nom',
                 'placeholder' => '--Choississez votre campus--', 'attr'=>['class'=>'form-select form-select-xs mb-3']])
-
             ->add('motdepasse', RepeatedType::class, ['type'=> PasswordType::class, 'label'=>'Mot de Passe','label_attr'=>['for-label'=>'validationCustom01'],
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller

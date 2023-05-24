@@ -30,7 +30,7 @@
     {% for s in sorties %}
         <tbody>
             <tr scope="row">
-                <td>{{ s.nom }}</td>
+                <td><a href="{{ path('sortie_detail', {'id': s.id}) }}" > {{ s.nom }}</a></td>
                 <td>{{ s.dateHeureDebut | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY HH:mm")}}</td>
                 <td>{{ s.dateLimiteInscription | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY")}}</td>
                 <td>{{ s.participants | length }}/ {{ s.nbInscriptionMax}}</td>

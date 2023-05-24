@@ -47,9 +47,11 @@ class GoOutAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
+
 
         // authentification réussie - redirection page d'accueil
         return new RedirectResponse($this->urlGenerator->generate('main_home'));
@@ -59,4 +61,5 @@ class GoOutAuthenticator extends AbstractLoginFormAuthenticator
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
+
 }

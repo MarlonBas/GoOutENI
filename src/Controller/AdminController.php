@@ -50,16 +50,13 @@ class AdminController extends AbstractController
         $user = new Participant();
         $user->setIsVerified(false);
         $user->setActif(true);
-
-
-
         $isGrantedUser = $this->isGranted('ROLE_ADMIN');
 
         $form = $this->createForm(RegistrationFormType::class, $user,
             ["isGrantedUser" => $isGrantedUser]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+      //  if ($form->isSubmitted() && $form->isValid()) {
             $user->setRoles($form->get('roles')->getData());
             // encode the plain password
             $user->setPassword(
@@ -87,7 +84,7 @@ class AdminController extends AbstractController
             // do anything else you need here, like send an email
 
             return $this->redirectToRoute('main_home');
-        }
+    //    }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
