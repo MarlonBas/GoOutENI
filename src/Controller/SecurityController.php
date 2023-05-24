@@ -21,28 +21,25 @@ class SecurityController extends AbstractController
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
-      //  $string = $this->getRequest()->getCookie('REMEMBERME');
-     /*   $mobileDetect = new MobileDetect();
+        //  $string = $this->getRequest()->getCookie('REMEMBERME');
+        $mobileDetect = new MobileDetect();
 
 
-
-
-        if($mobileDetect->isMobile()){
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+        if ($mobileDetect->isMobile()) {
             // get the login error if there is one
-            $error = $authenticationUtils->getLastAuthenticationError();
             // last username entered by the user
-            $lastUsername = $authenticationUtils->getLastUsername();
             return $this->render('mobile/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
 
-        }else{
-     */
+        } else {
+
             // get the login error if there is one
-            $error = $authenticationUtils->getLastAuthenticationError();
             // last username entered by the user
-            $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+            return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
 
+        }
     }
 
     /**

@@ -43,9 +43,10 @@ class UserController extends AbstractController
             ["isGrantedUser" => $isGrantedUser]);
         $form->handleRequest($request);
 
-      if ($form->isSubmitted() && $form->isValid()) {
 
+        if ($form->isSubmitted() && $form->isValid()) {
             $uploadedFile = $form->get('image')->getData();
+
             if ($uploadedFile) {
 
                 $newFilename = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
@@ -53,15 +54,14 @@ class UserController extends AbstractController
                 $targetDirectory = $this->getParameter('upload_directory');
                 $uploadedFile->move($targetDirectory, $newFilename);
                 $user->setImage($newFilename);
-                $entityManager->flush($user);
-                $this->addFlash('success', "Modification de profil faite");
             }
 
-            }else{
-          $this->addFlash('success', "Une erreur s'est produite");
-      }
 
-            return $this->render('user/monprofil.html.twig', [
+            }
+                 $entityManager->flush($user);
+
+
+        return $this->render('user/monprofil.html.twig', [
                     'registrationForm' => $form->createView(), 'user' => $user]
             );
         }

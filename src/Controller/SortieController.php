@@ -14,6 +14,7 @@ use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
+use Detection\MobileDetect;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -206,6 +207,8 @@ class SortieController extends AbstractController
      */
     public function detail(int $id, SortieRepository $sortieRepository): Response
     {
+        $mobileDetect = new MobileDetect();
+
         $sortie = $sortieRepository->find($id);
         $organisateur = $sortie->getOrganisateur();
         $campus = $sortie->getCampus();
@@ -214,17 +217,29 @@ class SortieController extends AbstractController
         $lieu = $sortie->getLieu();
         $participants = $sortie->getParticipants()->count();
 
+        if ($mobileDetect->isMobile()) {
+            return $this->render('mobile/mobiledetailssortie.html.twig', [
+                'sortie' => $sortie,
+                'campus' => $campus,
+                'dateLimite'=> $dateLimiteSortie,
+                'dateSortie' => $dateSortie,
+                'lieu' => $lieu,
+                'participants' => $participants,
+                'organisateur' => $organisateur,
+            ]);
+        }else {
 
-        return $this->render('sortie/detail.html.twig', [
-            'sortie' => $sortie,
-            'campus' => $campus,
-            'dateLimite'=> $dateLimiteSortie,
-            'dateSortie' => $dateSortie,
-            'lieu' => $lieu,
-            'participants' => $participants,
-            'organisateur' => $organisateur,
+            return $this->render('sortie/detail.html.twig', [
+                'sortie' => $sortie,
+                'campus' => $campus,
+                'dateLimite' => $dateLimiteSortie,
+                'dateSortie' => $dateSortie,
+                'lieu' => $lieu,
+                'participants' => $participants,
+                'organisateur' => $organisateur,
 
-        ]);
+            ]);
+        }
 
     }
 

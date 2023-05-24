@@ -1,0 +1,7 @@
+mobile_detect:
+  redirect:
+    mobile:
+      is_enabled: true
+      host: localhost:8888/GoOutENI/public/
+      action: redirect
+    detect_tablet_as_mobile: true
