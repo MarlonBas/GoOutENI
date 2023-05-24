@@ -17,11 +17,13 @@ class EmailVerifier
     private MailerInterface $mailer;
     private EntityManagerInterface $entityManager;
 
+
     public function __construct(VerifyEmailHelperInterface $helper, MailerInterface $mailer, EntityManagerInterface $manager)
     {
         $this->verifyEmailHelper = $helper;
         $this->mailer = $mailer;
         $this->entityManager = $manager;
+
     }
 
     /**
@@ -52,7 +54,6 @@ class EmailVerifier
     public function handleEmailConfirmation(Request $request, UserInterface $user): void
     {
         $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
-
         $user->setIsVerified(true);
 
         $this->entityManager->persist($user);

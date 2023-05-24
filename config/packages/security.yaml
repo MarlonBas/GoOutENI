@@ -5,6 +5,7 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
     role_hierarchy:
+        ROLE_INACTIF : ['ROLE_INACTIF']
         ROLE_USER: ['ROLE_USER']
         ROLE_ORGA : ['ROLE_ORGA']
         ROLE_ADMIN: ['ROLE_ADMIN']
@@ -52,6 +53,9 @@ security:
          - { path: ^/admin/register, roles: ROLE_ADMIN }
          - { path: ^/home, roles: ROLE_USER}
          - { path: ^/user, roles: ROLE_USER}
+         - { path: ^/sortie, roles: ROLE_ORGA}
+
+
 
 
 

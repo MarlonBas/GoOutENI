@@ -12,11 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 /**
@@ -25,13 +27,19 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class AdminController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
+    private ResetPasswordHelperInterface $resetPasswordHelper;
+
+    private MailerInterface $mailer;
 
     /**
      * @param EmailVerifier $emailVerifier
      */
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(MailerInterface $mailer, ResetPasswordHelperInterface $resetPasswordHelper, EmailVerifier $emailVerifier)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->resetPasswordHelper = $resetPasswordHelper;
+        $this->mailer= $mailer;
+
     }
 
     public function index(): Response
@@ -44,8 +52,10 @@ class AdminController extends AbstractController
     /**
      * @Route("/register", name="register")
      * @throws TransportExceptionInterface
+     * @throws \Exception
+     * @throws ResetPasswordExceptionInterface
      */
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $user = new Participant();
         $user->setIsVerified(false);
@@ -82,7 +92,19 @@ class AdminController extends AbstractController
                        ->htmlTemplate('registration/confirmation_email.html.twig')
                );
 
-            // do anything else you need here, like send an email
+            // envoyer un mail pour changer le mot de passe par le user
+            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
+
+            $email = (new TemplatedEmail())
+                ->from('contact@goout.com')
+                ->to($user->getEmail())
+                ->subject('Modification du mot de passe')
+                ->htmlTemplate('reset_password/email.html.twig')
+                ->context([
+                    'resetToken' => $resetToken,
+                ]);
+
+            $this->mailer->send($email);
 
             return $this->redirectToRoute('main_home');
       }
@@ -129,9 +151,10 @@ class AdminController extends AbstractController
     public function desactiverUser(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $participantRepository->find($id);
+        $user->setRoles(["ROLE_INACTIF"]);
         $user->setActif(false);
         $entityManager->flush($user);
-        $this->addFlash('success', "L'utilisateur est mainteant inactif");
+        $this->addFlash('success', "L'utilisateur est maintenant inactif");
 
         return $this->redirectToRoute('app_admin_liste_users');
 
