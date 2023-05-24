@@ -25,43 +25,48 @@ class RechercheType extends AbstractType
                 'choice_label' => 'nom',
                 'required' => false,
                 'placeholder' => '--Choississez votre campus--',
-                'attr'=>['class'=>'form-select form-select-lg mb-3']
+                'attr'=>['class'=>'form-select form-select-sm mb-3 col']
             ])
             ->add('stringRecherche', TextType::class, [
-                'label' => 'Nom de sortie',
-                'required' => false
+                'label' => 'Rechercher parmi les sorties',
+                'required' => false,
+                'attr'=>['class'=>'form-control col']
             ])
             ->add('dateDebut', DateType::class, [
                 'label' => 'Entre la date',
                 'required' => false,
                 'widget' => 'single_text',
-                'attr'=>['class'=>'date date-lg mb-3']
+                'attr'=>['class'=>'date date-sm mb-3 form-control col']
             ])
             ->add('dateFin', DateType::class, [
                 'label' => 'et la date',
                 'required' => false,
                 'widget' => 'single_text',
-                'attr'=>['class'=>'date date-lg mb-3']
+                'attr'=>['class'=>'date date-sm mb-3 form-control col']
             ])
             ->add('checkOrganisateur', CheckboxType::class, [
                 'label' => "Sorties dont je suis l'organisateur/trice",
-                'required' => false
+                'required' => false,
+                'attr'=>['class'=>'form-check-input']
             ])
             ->add('checkInscrit', CheckboxType::class, [
                 'label' => 'Sorties auquels je suis incrit/e',
-                'required' => false
+                'required' => false,
+                'attr'=>['class'=>'form-check-input']
             ])
             ->add('checkNonInscrit', CheckboxType::class, [
                 'label' => 'Sorties auquels je ne suis pas incrit/e',
-                'required' => false
+                'required' => false,
+                'attr'=>['class'=>'form-check-input']
             ])
             ->add('checkPassee', CheckboxType::class, [
                 'label' => 'Sorties passées',
-                'required' => false
+                'required' => false,
+                'attr'=>['class'=>'form-check-input']
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Rechercher',
-                'attr'=>['class'=>'btn btn-lg btn-dark']
+                'attr'=>['class'=>'btn btn-lg btn-dark col']
             ])
         ;
     }

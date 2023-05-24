@@ -7,21 +7,37 @@
                     <div class="form-outline">
                         {{ form_row(recherche.campus) }}
                         {{ form_row(recherche.stringRecherche) }}
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-outline">
                         {{ form_row(recherche.dateDebut) }}
                         {{ form_row(recherche.dateFin) }}
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-outline">
-                        {{ form_row(recherche.checkOrganisateur) }}
-                        {{ form_row(recherche.checkInscrit) }}
-                        {{ form_row(recherche.checkNonInscrit) }}
-                        {{ form_row(recherche.checkPassee) }}
+                        <div class="d-flex mb-2">
+                            {{ form_widget(recherche.checkOrganisateur) }}
+                            {{ form_label(recherche.checkOrganisateur) }}
+                        </div>
+                        <div class="d-flex mb-2">
+                            {{ form_widget(recherche.checkInscrit) }}
+                            {{ form_label(recherche.checkInscrit) }}
+                        </div>
+                        <div class="d-flex mb-2">
+                            {{ form_widget(recherche.checkNonInscrit) }}
+                            {{ form_label(recherche.checkNonInscrit) }}
+                        </div>
+                        <div class="d-flex mb-2">
+                            {{ form_widget(recherche.checkPassee) }}
+                            {{ form_label(recherche.checkPassee) }}
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="form-outline">
-                        {{ form_end(recherche) }}
+                     {{ form_end(recherche) }}
                     </div>
                 </div>
             </div>
