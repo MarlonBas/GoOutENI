@@ -8,6 +8,7 @@ use App\Form\RegistrationFormType;
 use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use Detection\MobileDetect;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -29,6 +30,8 @@ class MainController extends AbstractController
      */
     public function home(SortieRepository $sortieRepository, EntityManagerInterface $entityManager, Request $request)
     {
+        $mobileDetect = new MobileDetect();
+
 
         $date = new \DateTime();
         $date->modify('-1 month');
@@ -91,9 +94,16 @@ class MainController extends AbstractController
                 $sorties = $this->checkPasseeFilter($sorties);
             }
         }
-        // RENDER DE LA PAGE
-        return $this->render('main/home.html.twig',
-            ['recherche' => $rechercheForm->createView(), 'sorties'=>$sorties]);
+        if($mobileDetect->isMobile()){
+            return $this->render('main/home.html.twig',
+                ['sorties'=>$sorties]);
+        }else {
+
+
+            // RENDER DE LA PAGE
+            return $this->render('main/home.html.twig',
+                ['recherche' => $rechercheForm->createView(), 'sorties' => $sorties]);
+        }
     }
 
     private function campusFilter($campus, $sorties)

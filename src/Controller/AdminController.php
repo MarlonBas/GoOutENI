@@ -57,6 +57,7 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $user->setRoles($form->get('roles')->getData());
             // encode the plain password
             $user->setPassword(
@@ -73,7 +74,7 @@ class AdminController extends AbstractController
 
 
             // generate a signed url and email it to the user
-              $this->emailVerifier->sendEmailConfirmation('app_admin_app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation('app_admin_app_verify_email', $user,
                    (new TemplatedEmail())
                        ->from(new Address('contact@goout.com', 'Go Out Mail'))
                        ->to($user->getEmail())
@@ -90,6 +91,7 @@ class AdminController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
     /**
      * @Route("/verify/email", name="app_verify_email")
      */
