@@ -18,7 +18,7 @@ class Recherche
     private $id;
 
     /**
-     * @ORM\Column(type="Campus", length=100, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $campus;
 

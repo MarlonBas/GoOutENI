@@ -32,7 +32,7 @@
             <tr scope="row">
                 <td>{{ s.nom }}</td>
                 <td>{{ s.dateHeureDebut | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY HH:mm")}}</td>
-                <td>{{ s.dateLimiteInscription | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY HH:mm")}}</td>
+                <td>{{ s.dateLimiteInscription | format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY")}}</td>
                 <td>{{ s.participants | length }}/ {{ s.nbInscriptionMax}}</td>
                 <td>{{ s.etat.libelle }}</td>
                 <td>
@@ -47,10 +47,10 @@
                 <td><a href="{{ path('user_profil_participant', {'id': s.organisateur.id}) }}"> {{ s.organisateur.nom }} </a></td>
                 <td> {% if(is_granted('ROLE_ADMIN') or is_granted('ROLE_ORGA') ) %}
                         {% if(s.etat.id !=1) %}
-                            <a href="#">Annuler</a>
-                            <a href="#">Afficher</a>
+                            <a href="{{ path('sortie_annulation', {'id': s.id}) }}">Annuler</a>
+                            <a href="{{ path('sortie_detail', {'id': s.id}) }}">Afficher</a>
                         {% else %}
-                            <a href="#">Modifier</a>
+                            <a href="{{ path('sortie_modif', {'id': s.id}) }}">Modifier</a>
                             <a href="#">Publier</a>
                         {% endif %}
                     {% else %}

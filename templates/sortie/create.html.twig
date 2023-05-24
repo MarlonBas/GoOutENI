@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    {% if sortie.nom != null %}
+    {% if sortie.etat != null %}
         <h1 class="text-center">Modification de la sortie  </h1>
     {% else %}
          <h1 class="text-center">Organiser une nouvelle sortie ! </h1>
@@ -11,7 +11,7 @@
     {% if error %}
         <div class="alert alert-danger">{{ error.value }}</div>
     {% endif %}
-{{ form_start(sortieForm)}}
+{{ form_start(sortieForm ,{'attr': {'id': 'form_sortie'} }) }}
 <div class="card-body px-4 py-5 px-md-5">
     <div class="row">
         <div class="col-md-6 mb-4">
@@ -57,28 +57,39 @@
     <div class="col-md-6 mb-4">
         <div class="form-outline mb-4">
             Campus :
-        {% if sortie.nom != null %}
+        {% if sortie.etat!= null %}
             {{ form_widget(sortieForm.campus)}}
+            {{ form_row(sortieForm.lieu) }}
+
         {% else %}
             <input type="text" class ="form-control form-control-m" value="{{ campus.nom }}" readonly>
             {{ form_widget(sortieForm.campus,{'attr': {'class': 'd-none'} }) }}
+            {{ form_widget(sortieForm.lieu,{'attr': {'class': 'd-none'} }) }}
 
         {% endif %}
+            <br>
+            {{ form_widget(sortieForm.enregistrer) }}
+            {{ form_widget(sortieForm.publier) }}
+
+            <button class="btn btn-danger" onclick="window.location.href ='{{ path('main_home') }}'" >Annuler</button>
+            {{ form_end(sortieForm) }}
         </div>
     </div>
+    {% if sortie.etat == null %}
     <div class="col-md-6 mb-4">
         <div class="form-outline mb-4">
-        {{ form_row(sortieForm.lieu) }}
+            {{ include('admin/addlieu.html.twig') }}
         </div>
     </div>
+    {% endif %}
 </div>
     <div class="col-8">
-                 {{ form_widget(sortieForm.enregistrer) }}
-                 {{ form_widget(sortieForm.publier) }}
-                 <button class="btn btn-danger" onclick="window.location.href ='{{ path('main_home') }}'" >Annuler</button>
-    </div>
+     </div>
 
-    {{ form_end(sortieForm) }}
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+    ></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
 
 
@@ -87,7 +98,6 @@
 {% block title %}
     {% if sortie.nom != null %}
         Modifier votre sortie |  {{ parent() }}
-
     {% else %}
         Organiser une sortie |  {{ parent() }}
     {% endif %}

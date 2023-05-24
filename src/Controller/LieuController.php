@@ -46,6 +46,7 @@ class LieuController extends AbstractController
         //Liste de tous les lieu
         $lieu = $lieuRepository->findAll();
         $ville = $villeRepository->findAll();
+
         //ajouter un lieu
         $newLieu =  new Lieu();
         $lieuForm = $this->createForm(LieuType::class, $newLieu);

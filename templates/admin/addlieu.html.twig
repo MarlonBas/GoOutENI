@@ -1,28 +1,8 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
-    <br><h3>Ajouter un Lieu</h3>
     <div>
         {{ form(lieuForm) }}
-
     </div>
 <br>
-    <template id="lineData">
-        <tr>
-            <td> </td>
-            <!--<td><button id="btnModifier" class="btn btn-info">Modifier</button> <a href="" role="button" id="btnDelete" class="btn btn-danger">Supprimer</a></td>-->
-            <td>
-                <button onclick="modifier(this)" role="button" id="btnModify" class="btn btn-info">Modifier</button>
-                <button onclick="supprimer(this)" role="button" id="btnDelete" class="btn btn-danger">Supprimer</button>
-            </td>
-        </tr>
-    </template>
 <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
 ></script>
     <script src="{{ asset('js/app2.js') }}"></script>
-{% endblock %}
-
-{% block title %}
-    Gérer les lieux de sortie |  {{ parent() }}
-{% endblock %}

@@ -52,7 +52,7 @@ class Sortie
 
     /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $lieu;
 
@@ -78,6 +78,11 @@ class Sortie
      * @ORM\ManyToMany(targetEntity=Participant::class, inversedBy="sorties")
      */
     private $participants;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $modif_annulation;
 
     public function __construct()
     {
@@ -230,6 +235,18 @@ class Sortie
     public function removeParticipant(Participant $participant): self
     {
         $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
+    public function getModifAnnulation(): ?string
+    {
+        return $this->modif_annulation;
+    }
+
+    public function setModifAnnulation(?string $modif_annulation): self
+    {
+        $this->modif_annulation = $modif_annulation;
 
         return $this;
     }

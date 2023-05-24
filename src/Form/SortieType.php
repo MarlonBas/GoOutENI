@@ -53,6 +53,7 @@ class SortieType extends AbstractType
                 },
                 'placeholder' => 'Selectionner le lieu de la sortie',
                 'attr'=>['class'=>'form-select form-select-m mb-3'],
+                'required' =>false,
                 //'disabled'=> $ville === null,
                 'query_builder' => fn(LieuRepository $lieuRepository) => $lieuRepository->createQueryBuilder('l')
                     ->orderBy('l.nom', 'ASC')

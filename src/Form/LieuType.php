@@ -14,7 +14,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 class LieuType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -22,25 +21,15 @@ class LieuType extends AbstractType
         $builder
             ->add('lieu',EntityType::class, [
                 'class'=> Lieu::class,
+                'label' => 'Lieux :',
                 'choice_label'=>function ($lieu) {
                     return $lieu->__toString();
                 },
                 'mapped'=>false,
+                'placeholder' => 'Selectionner le lieu de la sortie',
+                'attr'=>['class'=>'form-select form-select-m mb-3'],
                 'required' =>false
             ])
-            /*->add('nom', null ,[
-                'required' => false,
-                 ])
-            ->add('rue', null ,[
-                'required' => false,
-            ])
-
-            ->add('latitude', null ,[
-                'required' => false,
-            ])
-            ->add('longitude', null ,[
-                'required' => false,
-            ])*/
 
         ;
         $builder->get('lieu')->addEventListener(
@@ -88,7 +77,6 @@ class LieuType extends AbstractType
                 /* @var $lieu \App\Entity\Lieu */
 
                 $form = $event->getForm();
-                dump($data);
                      if ($data) {
                          $form->getParent()
                          ->

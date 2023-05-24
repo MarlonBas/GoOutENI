@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
@@ -13,6 +14,7 @@ use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
+use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form;
@@ -71,7 +73,8 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
         $lieuForm->handleRequest($request);
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+          if ($sortieForm->isSubmitted() && $sortieForm->isValid() ) {
 
             // Si utilisateur souhaite Enregister sa Sortie
             if($sortieForm->getClickedButton() && 'enregistrer'=== $sortieForm->getClickedButton()->getName()) {
@@ -120,7 +123,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/modif/{id}", name="modif")
+     * @Route("/modif/{id}", name="modif", requirements={"id"="\d+"})
      */
     public function modifier(int $id, Request $request,
                              EtatRepository $etatRepository,
@@ -138,18 +141,20 @@ class SortieController extends AbstractController
         }
 
         $campus = $sortie->getOrganisateur()->getCampus();
-        $lieu = $sortie->getLieu();
-        $latitude = $lieu->getLatitude();
-        $longitude = $lieu->getLongitude();
-        $ville = $lieu->getVille();
+        $lieuSortie = $sortie->getLieu();
+        $latitude = $lieuSortie->getLatitude();
+        $longitude = $lieuSortie->getLongitude();
+        $villeSortie= $lieuSortie->getVille();
+
+        $ville = $villeRepository->findAll();
+        $lieu = $lieuRepository->findAll();
 
         $error = "";
-//        $newLieu = new Lieu();
-//        $lieuform = $this->createForm(LieuFormType::class, $newLieu);
+        $lieuForm = $this->createForm(LieuType::class);
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
-
+        dump($sortie);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             //Recuperation du choix si Modification simple ou Si Publication
@@ -185,12 +190,87 @@ class SortieController extends AbstractController
             'longitude'=>$longitude,
             'lieu'=>$lieu,
             'ville' =>$ville,
+            'lieuSortie'=>$lieu,
+            'villeSortie' =>$villeSortie,
             'sortieForm' => $sortieForm->createView(),
-            'error' => $error
+            'error' => $error,
+            "lieuForm" => $lieuForm->createView(),
 
+        ]);
+    }
+    /**
+     * @Route("/detail/{id}", name="detail")
+     */
+    public function detail(int $id, SortieRepository $sortieRepository): Response
+    {
+        $sortie = $sortieRepository->find($id);
+        $organisateur = $sortie->getOrganisateur();
+        $campus = $sortie->getCampus();
+        $dateSortie = $sortie->getDateHeureDebut()->format('d-m-Y H:i');
+        $dateLimiteSortie = $sortie->getDateLimiteInscription()->format('d-m-Y');
+        $lieu = $sortie->getLieu();
+        $participants = $sortie->getParticipants()->count();
+
+
+        return $this->render('sortie/detail.html.twig', [
+            'sortie' => $sortie,
+            'campus' => $campus,
+            'dateLimite'=> $dateLimiteSortie,
+            'dateSortie' => $dateSortie,
+            'lieu' => $lieu,
+            'participants' => $participants,
+            'organisateur' => $organisateur,
 
         ]);
 
+    }
+
+    /**
+     * @Route("/annulation/{id}", name="annulation")
+     */
+    public function annulation(int $id, SortieRepository $sortieRepository): Response
+    {
+        $sortie = $sortieRepository->find($id);
+        $dateSortie = $sortie->getDateHeureDebut()->format('d-m-Y H:i');
+        $campus = $sortie->getCampus();
+        $lieu = $sortie->getLieu();
+        $organisateur = $sortie->getOrganisateur();
+
+
+        return $this->render('sortie/annulation.html.twig', [
+            'sortie'=> $sortie,
+            'dateSortie' => $dateSortie,
+            'campus' => $campus,
+            'lieu' => $lieu,
+            'organisateur' => $organisateur
+            ]);
+
+
+    }
+
+    /**
+     * @Route("/annulersortie/{id}", name="confirm_annulation")
+     */
+    public function annulerSortie(Request $request,int $id){
+
+        // Récupérer l'entité de la sortie à annuler depuis la base de données
+        $entityManager = $this->getDoctrine()->getManager();
+        $outing = $entityManager->getRepository(Sortie::class)->find($id);
+        $etat= $entityManager->getRepository(Etat::class)->find(6);
+        if (!$outing) {
+            throw $this->createNotFoundException('La sortie n\'existe pas.');
+        }
+        // Récupérer le motif d'annulation depuis les données du formulaire
+        $motif = $request->request->get('motif');
+
+        // Mettre à jour les informations de la sortie annulée
+        $outing->setModifAnnulation($motif);
+        $outing->setEtat($etat);
+
+        // Enregistrer les modifications dans la base de données
+        $entityManager->flush();
+        $this->addFlash('success', "La sortie a été annulée avec succès");
+        return $this->redirectToRoute('main_home');
 
     }
 
