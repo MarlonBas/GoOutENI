@@ -175,12 +175,15 @@ class SortieController extends AbstractController
                     'value' => "La date de limite d'inscription ne peut pas etre aprés la date de la sortie"
                 ];
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($sortie);
-            $em->flush();
-            $this->addFlash('success', "La sortie a été modifiée avec succès");
-            return $this->redirectToRoute('main_home');
+            if ($error == "") {
 
+                $sortie->setEtat($etat);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($sortie);
+                $em->flush();
+                $this->addFlash('success', "La sortie a été modifiée avec succès");
+                return $this->redirectToRoute('main_home');
+            }
         }
 
         return $this->render('sortie/create.html.twig', [
