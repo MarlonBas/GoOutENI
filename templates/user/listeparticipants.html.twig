@@ -4,9 +4,11 @@
 
 
 {% block body %}
+<div class="container-fluid">
+    <div class="row">
 
-    <div class="participants">
         {% for u in users %}
+            <div class="col-md-3">
             <div class="card text-center" style="width: 15rem;">
                 <div class="card-body">
                     <h5 class="card-title">{{u.nom}}</h5>
@@ -23,8 +25,11 @@
                     <br>
                 </div>
             </div>
+            </div>
         {% endfor %}
+
     </div>
+</div>
 
 
 {% endblock %}

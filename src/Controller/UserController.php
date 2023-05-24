@@ -21,6 +21,7 @@ class UserController extends AbstractController
     {
         $this->tokenStorage = $tokenStorage;
     }
+
     /**
      * @Route("/users", name="liste_users")
      */
@@ -58,7 +59,8 @@ class UserController extends AbstractController
 
 
             }
-                 $entityManager->flush($user);
+                $entityManager->flush($user);
+                $this->addFlash('success', 'Modification de profil faite');
 
 
         return $this->render('user/monprofil.html.twig', [
