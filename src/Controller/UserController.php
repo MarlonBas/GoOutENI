@@ -12,10 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 class UserController extends AbstractController
 {
     private TokenStorageInterface $tokenStorage;
+
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {
@@ -34,6 +37,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/user/{id}", name="user_monprofil", requirements={"id"="\d+"})
+     * @throws ResetPasswordExceptionInterface
      */
     public function modifier(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
@@ -45,8 +49,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
             $uploadedFile = $form->get('image')->getData();
+        //   if ($form->isSubmitted() && $form->isValid()) {
 
             if ($uploadedFile) {
 
@@ -56,11 +60,11 @@ class UserController extends AbstractController
                 $uploadedFile->move($targetDirectory, $newFilename);
                 $user->setImage($newFilename);
             }
+           $this->addFlash('success', 'Modification de profil faite');
 
 
-            }
+      //      }
                 $entityManager->flush($user);
-                $this->addFlash('success', 'Modification de profil faite');
 
 
         return $this->render('user/monprofil.html.twig', [
