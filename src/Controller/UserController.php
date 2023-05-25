@@ -42,30 +42,26 @@ class UserController extends AbstractController
     {
         $user = $participantRepository->find($id);
         $isGrantedUser = $this->isGranted('ROLE_ADMIN');
-
         $form = $this->createForm(RegistrationFormType::class, $user,
             ["isGrantedUser" => $isGrantedUser]);
         $form->handleRequest($request);
+             $uploadedFile = $form->get('image')->getData();
 
+          if ($form->isSubmitted()) {
+              if ($uploadedFile) {
 
-            $uploadedFile = $form->get('image')->getData();
-        //   if ($form->isSubmitted() && $form->isValid()) {
+                  $newFilename = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
 
-            if ($uploadedFile) {
+                  $targetDirectory = $this->getParameter('upload_directory');
+                  $uploadedFile->move($targetDirectory, $newFilename);
+                  $user->setImage($newFilename);
+              }
 
-                $newFilename = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
-
-                $targetDirectory = $this->getParameter('upload_directory');
-                $uploadedFile->move($targetDirectory, $newFilename);
-                $user->setImage($newFilename);
-            }
-           $this->addFlash('success', 'Modification de profil faite');
-
-
-      //      }
-                $entityManager->flush($user);
-
-
+              $this->addFlash('success', "Modification de profil faite");
+              $entityManager->flush($user);
+              return $this->render('user/monprofil.html.twig', [
+                  'registrationForm' => $form->createView(), 'user' => $user]);
+          }
         return $this->render('user/monprofil.html.twig', [
                     'registrationForm' => $form->createView(), 'user' => $user]
             );
