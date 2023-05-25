@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="container">
+        <br><h1 style="text-align: center">Gérer les Villes</h1><hr>
+    </div><br>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+{#    <h3>Filtrer les lieux</h3>#}
+{#    <div class="input-group mb-3">#}
+{#        <input type="text" id="searchWord" class="form-control" placeholder="ex : Balade, velo, parc ..." aria-label="Recipient's username" aria-describedby="basic-addon2">#}
+{#        <div class="input-group-append">#}
+{#            <button class="btn btn-outline-primary" type="button">Rechercher</button>#}
+{#        </div>#}
+{#    </div>#}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Ville </th>
+            <th scope="col">Code Postal</th>
+
+            <th scope="col"></th>
+        </tr>
+        {% for v in ville %}
+            <tr>
+                <td scope="col">{{ v.nom }}</td>
+                <td scope="col">{{ v.codepostal }}</td>
+                <td scope="col">
+                    <button class="btn btn-warning btn-sm " onclick="window.location.href ='{{ path('ville_modif', {'id': v.id}) }}'" >Modifier</button>
+                    <button class="btn btn-danger btn-sm " onclick="if (confirm('Voulez-vous supprimer cette ville ?')) {window.location.href ='{{ path('ville_supprimer', {'id': v.id}) }}'}" >Supprimer</button>
+                </td>
+
+            </tr>
+        {% endfor %}
+        </thead>
+    </table>
+    <button  class="btn btn-primary"  onclick="window.location.href ='{{ path('ville_ajout') }}' " >Ajouter une nouvelle ville</button>
+
+{% endblock %}
+
+{% block title %}
+    Gérer les villes |  {{ parent() }}
+{% endblock %}

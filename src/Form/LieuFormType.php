@@ -19,21 +19,26 @@ class LieuFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
           $builder
-              ->add('nom')
-              ->add('rue')
+              ->add('nom', null, [
+              'label' => 'Nom du lieu : ', 'attr'=>['class'=>'form-control form-control-m']])
+              ->add('rue', null, [
+        'label' => 'Rue : ', 'attr'=>['class'=>'form-control form-control-m']])
               ->add('ville',EntityType::class, [
                   'class'=>Ville::class,
+                  'placeholder' => 'Selectionner la ville',
+                  'attr'=>['class'=>'form-select form-select-m mb-3'],
                   'choice_label'=>function ($ville) {
                       return $ville->__toString();
                   },
-                  'mapped'=>false
               ])
-              ->add('latitude')
-              ->add('longitude')
-              ->add( 'ajouter', SubmitType::class, [
-                  'label' =>'Ajouter',
-                  'attr'=>['class'=>'btn btn-primary']
-              ])
+              ->add('latitude', null, [
+                  'label' => 'Latitude : ', 'attr'=>['class'=>'form-control form-control-m']])
+              ->add('longitude', null, [
+                  'label' => 'Longitude : ', 'attr'=>['class'=>'form-control form-control-m']])
+//              ->add( 'ajouter', SubmitType::class, [
+//                  'label' =>'Ajouter',
+//                  'attr'=>['class'=>'btn btn-primary']
+//              ])
           ;
 
     }

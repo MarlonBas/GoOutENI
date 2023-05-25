@@ -6,6 +6,7 @@ use App\Repository\VilleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VilleRepository::class)
@@ -25,9 +26,27 @@ class Ville
     private $nom;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le code postal est obligatoire.")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]{5}$/",
+     *     message="Le code postal doit être composé de 5 chiffres."
+     * )
      */
     private $codePostal;
+
+    public function getCodePostal(): ?string
+    {
+        return $this->codePostal;
+    }
+
+    public function setCodePostal(string $codePostal): self
+    {
+        $this->codePostal = $codePostal;
+
+        return $this;
+    }
+
 
     /**
      * @ORM\OneToMany(targetEntity=Lieu::class, mappedBy="ville", orphanRemoval=true)
@@ -52,18 +71,6 @@ class Ville
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getCodePostal(): ?int
-    {
-        return $this->codePostal;
-    }
-
-    public function setCodePostal(int $codePostal): self
-    {
-        $this->codePostal = $codePostal;
 
         return $this;
     }

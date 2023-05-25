@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <br><h1 style="text-align: center">Gérer les Campus</h1><hr>
+    </div><br>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nom du campus</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for campus in campusListe %}
+            <tr>
+                <td scope="col">{{ campus.nom }}</td>
+                <td scope="col">
+                    <button class="btn btn-warning btn-sm" onclick="window.location.href ='{{ path('campus_modif', {'id': campus.id}) }}'">Modifier</button>
+                    <button class="btn btn-danger btn-sm" onclick="if (confirm('Voulez-vous supprimer ce campus ?')) { window.location.href ='{{ path('campus_supprimer', {'id': campus.id}) }}' }">Supprimer</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary" onclick="window.location.href ='{{ path('campus_ajout') }}'">Ajouter un nouveau campus</button>
+
+{% endblock %}
+
+{% block title %}
+    Gérer les campus | {{ parent() }}
+{% endblock %}

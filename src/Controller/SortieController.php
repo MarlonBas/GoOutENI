@@ -246,7 +246,6 @@ class SortieController extends AbstractController
 
             ]);
         }
-
     }
 
     /**
@@ -257,11 +256,6 @@ class SortieController extends AbstractController
         $userCo =  $this->getUser();
         $sortie = $sortieRepository->find($id);
         $userOrganisateur = $sortie->getOrganisateur();
-        if ($this->authorizationChecker->isGranted('ROLE_ADMIN', $userCo)) {
-            // L'utilisateur a le rôle "admin"
-            // Votre code ici
-
-        }
 
         if($userCo != $userOrganisateur && !$this->authorizationChecker->isGranted('ROLE_ADMIN', $userCo)){
             $this->addFlash('danger', "Redirection vous n'avez pas accés a cette page");
@@ -295,9 +289,20 @@ class SortieController extends AbstractController
         // Récupérer l'entité de la sortie à annuler depuis la base de données
         $entityManager = $this->getDoctrine()->getManager();
         $outing = $entityManager->getRepository(Sortie::class)->find($id);
-        $etat= $entityManager->getRepository(Etat::class)->find(6);
+
+        //on controle si la sortie existe sinon on redirige avec un message d'erreur
         if (!$outing) {
-            throw $this->createNotFoundException('La sortie n\'existe pas.');
+            $this->addFlash('danger', "La sortie n'existe pas.");
+            return $this->redirectToRoute('main_home');
+        }
+        $userCo =  $this->getUser();
+        $userOrganisateur = $outing->getOrganisateur();
+        $etat= $entityManager->getRepository(Etat::class)->find(6);
+
+        //on controle les droits de l'utilisateur sinon on redirige avec un message d'erreur
+        if($userCo != $userOrganisateur && !$this->authorizationChecker->isGranted('ROLE_ADMIN', $userCo)){
+            $this->addFlash('danger', "Redirection vous n'avez pas accés a cette page.");
+            return $this->redirectToRoute('main_home');
         }
         // Récupérer le motif d'annulation depuis les données du formulaire
         $motif = $request->request->get('motif');

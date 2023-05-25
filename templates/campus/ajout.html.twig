@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <br><h3>Ajouter un Campus</h3>
+    <div>
+        <form method="POST">
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-danger" >
+                {% if app.request.attributes.get('_route') == 'campus_modif' %}
+                    Modifier
+                {% elseif app.request.attributes.get('_route') == 'campus_ajout'%}
+                    Ajouter
+                {% endif %}</button>
+        </form>
+        <br>
+        <button class="btn btn-dark" onclick="window.location.href ='{{ path('campus_liste') }}'">Retour</button>
+    </div>
+    <br>
+
+{% endblock %}
+
+{% block title %}
+    {% if app.request.attributes.get('_route') == 'campus_modif' %}
+    Modifier le campus : {{ campus.nom}} |  {{ parent() }}
+    {% elseif app.request.attributes.get('_route') == 'campus_ajout'%}
+        Ajouter un nouveau campus |  {{ parent() }}
+    {% endif %}
+
+{% endblock %}

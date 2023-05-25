@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <br><h3>Ajouter un Lieu</h3>
+    <div>
+        <form method="POST">
+        {{ form_widget(lieuForm) }}
+        <button type="submit" class="btn btn-danger" >
+            {% if app.request.attributes.get('_route') == 'lieu_modif' %}
+            Modifier
+            {% elseif app.request.attributes.get('_route') == 'lieu_ajout'%}
+            Ajouter
+            {% endif %}</button>
+        </form>
+        <br>
+        <button class="btn btn-dark " onclick="window.location.href ='{{ path('list_lieu')}}'" >Retour</button>
+
+    </div>
+    <br>
+
+{% endblock %}
+
+{% block title %}
+    {% if app.request.attributes.get('_route') == 'lieu_modif' %}
+    Modifier le lieu : {{ lieu.nom }}|  {{ parent() }}
+    {% elseif app.request.attributes.get('_route') == 'lieu_ajout'%}
+    Ajouter un nouveau lieu de sortie |  {{ parent() }}
+    {% endif %}
+
+{% endblock %}
