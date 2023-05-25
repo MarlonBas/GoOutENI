@@ -150,7 +150,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/user/desactiver/{id}", name="desactiver_user", requirements={"id"="\d+"})
      */
-    public function desactiverUser(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    public function desactiverUser(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $participantRepository->find($id);
         $user->setRoles(["ROLE_INACTIF"]);
@@ -167,7 +167,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/user/activer/{id}", name="activer_user", requirements={"id"="\d+"})
      */
-    public function activerUser(int $id, Request $request, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    public function activerUser(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $participantRepository->find($id);
         $user->setActif(true);
@@ -221,6 +221,21 @@ class AdminController extends AbstractController
         return $this->render('registration/uploadcsv.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+    /**
+     * @Route("/user/supprimer/{id}", name="supprimer_user", requirements={"id"="\d+"})
+     */
+    public function supprimerUser(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $participantRepository->find($id);
+        $entityManager->remove($user);
+        $entityManager->flush($user);
+        $this->addFlash('success', "L'utilisateur est maintenant supprimé");
+
+        return $this->redirectToRoute('app_admin_liste_users');
+
+
+
     }
 
 }
