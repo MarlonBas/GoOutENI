@@ -2,8 +2,9 @@
 
 {% block body %}
     <h1>Inscription d'utilisateurs par CSV</h1>
+    <p>!!! Attention les noms de colonnes suivants doivent être présents !!!<br>
+    nom prenom pseudo email password telephone campus role</p><br>
     {{ form_start(form) }}
     {{ form_row(form.csvFile) }}
-    <button type="submit">Upload</button>
     {{ form_end(form) }}
 {% endblock %}
