@@ -44,7 +44,7 @@ class MainController extends AbstractController
 
         $sorties = $qb->getQuery()->getResult();
 
-        //GESTION DE LA SESSION ET INFO USER
+        // GESTION DE LA SESSION ET INFO USER
         $token = $this->tokenStorage->getToken();
         $user = $token->getUser();
         $sortiesInscrit = $user->getSorties()->toArray();
@@ -57,7 +57,6 @@ class MainController extends AbstractController
 
         if ($rechercheForm->isSubmitted() && $rechercheForm->isValid()) {
             $parametresDeRecherche = $rechercheForm->getData();
-            dump($parametresDeRecherche);
 
             // APPELLE DES FONCTIONS FILTRES - (avec la fonction array_filter() )
             $campus = $parametresDeRecherche->getCampus();
