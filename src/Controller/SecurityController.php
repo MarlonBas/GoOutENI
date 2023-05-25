@@ -18,11 +18,10 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-        //  $string = $this->getRequest()->getCookie('REMEMBERME');
-
+        // si utilisateur déja log on le renvoi sur la page d'accueil
+        if ($this->getUser()) {
+             return $this->redirectToRoute('main_home');
+        }
 
 
         $mobileDetect = new MobileDetect();
