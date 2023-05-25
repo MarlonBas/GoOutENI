@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\CsvUploadType;
 use App\Form\RegistrationFormType;
 use App\Repository\ParticipantRepository;
+use App\Repository\CampusRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -174,6 +176,51 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('app_admin_liste_users');
 
+    }
+
+    /**
+     * @Route("/upload-csv", name="upload_csv")
+     */
+    public function uploadCsv(Request $request, \Doctrine\ORM\EntityManagerInterface $entityManager, CampusRepository $campusRepository)
+    {
+        $form = $this->createForm(CsvUploadType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('csvFile')->getData();
+            // EXTRAIRE LES DONNEES DU CSV
+            $csvData = file_get_contents($file->getPathname());
+            $lignes = array_map('str_getcsv', explode("\n", $csvData));
+            $header = array_shift($lignes); // Retire la première ligne de $lignes et la retourne pour stocker dans $header on pourra ainsi
+            //                                        gèrer des variations dans l'ordre des colonnes
+            // EXTRAIRE LES USERS DES DONNEES
+            $users = [];
+            foreach ($lignes as $ligne) {
+                $userData = array_combine($header, $ligne); // associer les headers à la ligne
+
+                $user = new Participant();
+                $user->setNom($userData['nom']);
+                $user->setPrenom($userData['prenom']);
+                $user->setPseudo($userData['pseudo']);
+                $user->setEmail($userData['email']);
+                $user->setPassword($userData['password']);
+                $user->setTelephone($userData['telephone']);
+                $user->setCampus($campusRepository->findOneByNom($userData['campus']));
+                $user->setRoles([$userData['role']]);
+                $user->setActif(1);
+
+                $users[] = $user;
+            }
+            // STOCKER LES USERS DANS LA BDD
+            foreach ($users as $user) {
+                $entityManager->persist($user);
+            }
+            $entityManager->flush();
+        }
+
+        return $this->render('registration/uploadcsv.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
 }

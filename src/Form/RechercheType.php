@@ -50,12 +50,12 @@ class RechercheType extends AbstractType
                 'attr'=>['class'=>'form-check-input']
             ])
             ->add('checkInscrit', CheckboxType::class, [
-                'label' => 'Sorties auquels je suis incrit/e',
+                'label' => 'Sorties auquels je suis inscrit/e',
                 'required' => false,
                 'attr'=>['class'=>'form-check-input']
             ])
             ->add('checkNonInscrit', CheckboxType::class, [
-                'label' => 'Sorties auquels je ne suis pas incrit/e',
+                'label' => 'Sorties auquels je ne suis pas inscrit/e',
                 'required' => false,
                 'attr'=>['class'=>'form-check-input']
             ])
