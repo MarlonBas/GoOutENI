@@ -181,7 +181,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/upload-csv", name="upload_csv")
      */
-    public function uploadCsv(Request $request, \Doctrine\ORM\EntityManagerInterface $entityManager, CampusRepository $campusRepository)
+    public function uploadCsv(Request $request, \Doctrine\ORM\EntityManagerInterface $entityManager, CampusRepository $campusRepository, UserPasswordHasherInterface $userPasswordHasher)
     {
         $form = $this->createForm(CsvUploadType::class);
 
@@ -203,7 +203,7 @@ class AdminController extends AbstractController
                 $user->setPrenom($userData['prenom']);
                 $user->setPseudo($userData['pseudo']);
                 $user->setEmail($userData['email']);
-                $user->setPassword($userData['password']);
+                $user->setPassword($userPasswordHasher->hashPassword($user, $userData['password']));
                 $user->setTelephone($userData['telephone']);
                 $user->setCampus($campusRepository->findOneByNom($userData['campus']));
                 $user->setRoles([$userData['role']]);
