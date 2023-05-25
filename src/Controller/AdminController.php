@@ -153,7 +153,6 @@ class AdminController extends AbstractController
     public function desactiverUser(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $participantRepository->find($id);
-        $user->setRoles(["ROLE_INACTIF"]);
         $user->setActif(false);
         $entityManager->flush($user);
         $this->addFlash('success', "L'utilisateur est maintenant inactif");
