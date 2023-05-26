@@ -106,7 +106,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" id="btnFermer" data-dismiss="modal">Fermer</button>
                     <button type="submit" class="btn btn-primary" id="enregistrerLieuBtn">Enregistrer</button>
                 </div>
                 {{ form_end(lieuModalForm) }}
@@ -123,6 +123,10 @@
 
             $('#btnAjouterLieu').click(function() {
                 $('#addLieuModal').modal('show');
+            });
+
+            $('#btnFermer').click(function() {
+                $('#addLieuModal').modal('hide');
             });
 
             // Envoyer le formulaire lorsque le bouton "Enregistrer" du modal est cliqué
