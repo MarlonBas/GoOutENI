@@ -3,94 +3,141 @@
 {% block body %}
 
     {% if sortie.etat != null %}
-        <h1 class="text-center">Modification de la sortie  </h1>
+        <h1 class="text-center">Modification de la sortie</h1>
     {% else %}
-         <h1 class="text-center">Organiser une nouvelle sortie ! </h1>
+        <h1 class="text-center">Organiser une nouvelle sortie !</h1>
     {% endif %}
 
     {% if error %}
         <div class="alert alert-danger">{{ error.value }}</div>
     {% endif %}
-{{ form_start(sortieForm ,{'attr': {'id': 'form_sortie'} }) }}
-<div class="card-body px-4 py-5 px-md-5">
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="form-outline mb-4">
-                {{ form_row(sortieForm.nom) }}
+    {{ form_start(sortieForm ,{'attr': {'id': 'form_sortie'} }) }}
+    <div class="card-body px-4 py-5 px-md-5">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="form-outline mb-4">
+                    {{ form_row(sortieForm.nom) }}
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="form-outline mb-4">
+                    {{ form_row(sortieForm.dateHeureDebut) }}
+                </div>
             </div>
         </div>
-        <div class="col-md-6 mb-4">
-            <div class="form-outline mb-4">
-                {{ form_row(sortieForm.dateHeureDebut) }}
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="form-outline mb-4">
+                    {{ form_row(sortieForm.duree) }}
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="form-outline mb-4">
+                    {{ form_row(sortieForm.dateLimiteInscription) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="form-outline mb-4">
+                    {{ form_row(sortieForm.nbInscriptionMax) }}
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="form-outline mb-4">
+                    {{ form_row(sortieForm.infosSortie) }}
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 mb-4">
             <div class="form-outline mb-4">
+                Campus :
+                {% if sortie.etat != null %}
+                    {{ form_widget(sortieForm.campus) }}
+                    {{ form_row(sortieForm.lieu) }}
 
-            {{ form_row(sortieForm.duree) }}
+                {% else %}
+                    <input type="text" class="form-control form-control-m" value="{{ campus.nom }}" readonly>
+                    {{ form_widget(sortieForm.campus,{'attr': {'class': 'd-none'} }) }}
+                    {{ form_widget(sortieForm.lieu,{'attr': {'class': 'd-none'} }) }}
+
+                {% endif %}
+                <br>
+                {{ form_widget(sortieForm.enregistrer) }}
+                {{ form_widget(sortieForm.publier) }}
+
+                <button class="btn btn-danger" onclick="window.location.href ='{{ path('main_home') }}'">Annuler</button>
+                {{ form_end(sortieForm) }}
             </div>
         </div>
-        <div class="col-md-6 mb-4">
-            <div class="form-outline mb-4">
-            {{ form_row(sortieForm.dateLimiteInscription) }}
+        {% if sortie.etat == null %}
+
+            <div class="col-md-6 mb-4">
+                <div class="form-outline mb-4">
+                    {{ include('admin/addlieu.html.twig') }}
+                    <button type="button" class="btn btn-primary"  id="btnAjouterLieu" data-toggle="modal" data-target="#addLieuModal">
+                        Ajouter un lieu
+                    </button>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="form-outline mb-4">
-            {{ form_row(sortieForm.nbInscriptionMax) }}
-            </div>
-        </div>
-        <div class="col-md-6 mb-4">
-            <div class="form-outline mb-4">
-            {{ form_row(sortieForm.infosSortie) }}
-
-            </div>
-        </div>
-    </div>
-
-</div>
-<div class="row">
-    <div class="col-md-6 mb-4">
-        <div class="form-outline mb-4">
-            Campus :
-        {% if sortie.etat!= null %}
-            {{ form_widget(sortieForm.campus)}}
-            {{ form_row(sortieForm.lieu) }}
-
-        {% else %}
-            <input type="text" class ="form-control form-control-m" value="{{ campus.nom }}" readonly>
-            {{ form_widget(sortieForm.campus,{'attr': {'class': 'd-none'} }) }}
-            {{ form_widget(sortieForm.lieu,{'attr': {'class': 'd-none'} }) }}
-
         {% endif %}
-            <br>
-            {{ form_widget(sortieForm.enregistrer) }}
-            {{ form_widget(sortieForm.publier) }}
+    </div>
 
-            <button class="btn btn-danger" onclick="window.location.href ='{{ path('main_home') }}'" >Annuler</button>
-            {{ form_end(sortieForm) }}
-        </div>
-    </div>
-    {% if sortie.etat == null %}
-    <div class="col-md-6 mb-4">
-        <div class="form-outline mb-4">
-            {{ include('admin/addlieu.html.twig') }}
-        </div>
-    </div>
-    {% endif %}
-</div>
     <div class="col-8">
-     </div>
+    </div>
 
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-    ></script>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addLieuModal" tabindex="-1" aria-labelledby="addLieuModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addLieuModalLabel">Ajouter un nouveau lieu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(lieuModalForm, {'attr': {'id': 'form_lieu_modal'}}) }}
+                  {{ form(lieuModalForm) }}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary" id="enregistrerLieuBtn">Enregistrer</button>
+                </div>
+                {{ form_end(lieuModalForm) }}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#addLieuModal').modal('hide');
 
+
+            $('#btnAjouterLieu').click(function() {
+                $('#addLieuModal').modal('show');
+            });
+
+            // Envoyer le formulaire lorsque le bouton "Enregistrer" du modal est cliqué
+            $('#addLieuModal').on('click', '#enregistrerLieuBtn', function() {
+                $('#form_lieu_modal').submit();
+            });
+
+            // Fermer le modal après l'envoi du formulaire
+            $('#form_lieu_modal').on('submit', function() {
+                $('#addLieuModal').modal('hide');
+            });
+        });
+
+
+    </script>
 
 
 {% endblock %}

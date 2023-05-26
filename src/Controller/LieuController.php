@@ -9,6 +9,7 @@ use App\Repository\LieuRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -125,7 +126,43 @@ class LieuController extends AbstractController
         ]);
 
     }
+    /**
+     * @Route("/api/lieux", name="api_lieux_", format="json")
+     */
+    public function createLieu(Request $request, EntityManagerInterface $entityManager ): JsonResponse
+    {
+        $data = null;
+        dd($data);
+        // Récupérer les données du corps de la requête
+        $data = json_decode($request->getContent(), true);
 
+
+        // Créer une nouvelle instance de l'entité Lieu
+        $lieu = new Lieu();
+        $lieu->setNom($data['nom']);
+        $lieu->setRue($data['rue']);
+
+        // Définir d'autres propriétés du lieu...
+
+        // Valider les données
+
+        $errors = $validator->validate($lieu);
+        if (count($errors) > 0) {
+            // S'il y a des erreurs de validation, retourner une réponse JSON avec les erreurs
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+            return new JsonResponse(['errors' => $errorMessages], 400);
+        }
+
+        // Enregistrer le lieu dans la base de données
+        $entityManager->persist($lieu);
+        $entityManager->flush();
+
+        // Retourner une réponse JSON avec les détails du lieu créé
+        return new JsonResponse(['id' => $lieu->getId(), 'nom' => $lieu->getNom(), /* autres propriétés */], 201);
+    }
 
 
 

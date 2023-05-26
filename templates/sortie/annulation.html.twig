@@ -28,7 +28,7 @@
         <form action="{{ path('sortie_confirm_annulation', {'id': sortie.id}) }}" method="POST">
             <label for="motif">Motif d'annulation :</label>
             <textarea id="motif" name="motif" class="form-control form-control-m" required> {{ sortie ? sortie.modifAnnulation : ""  }}</textarea>
-            <button type="submit" class="btn btn-danger" >Annuler la sortie</button>
+            <button type="submit" class="btn btn-danger"> Annuler la sortie </button>
 
 
     </div>

@@ -6,6 +6,7 @@ use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Form\LieuModalFormType;
 use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Form\VilleFormType;
@@ -72,15 +73,17 @@ class SortieController extends AbstractController
         $error = "";
         $sortie = new Sortie();
         $newLieu =  new Lieu();
-
+        $lieuModal =  new Lieu();
         //Formulaire ajout de sortie
         $sortieForm = $this->createForm(SortieType ::class, $sortie);
         $lieuForm = $this->createForm(LieuType::class, $newLieu);
+        $lieuModalForm = $this->createForm(LieuFormType::class, $lieuModal);
+
 
         //récupération des données du formulaire
         $sortieForm->handleRequest($request);
         $lieuForm->handleRequest($request);
-
+        $lieuModalForm->handleRequest($request);
 
           if ($sortieForm->isSubmitted() && $sortieForm->isValid() ) {
 
@@ -116,6 +119,21 @@ class SortieController extends AbstractController
             }
 
 
+        if ($lieuModalForm->isSubmitted() && $lieuModalForm->isValid()) {
+            // Récupérer les données du formulaire
+            $lieuModal = $lieuModalForm->getData();
+
+            // Enregistrer le lieu dans la base de données
+            $entityManager->persist($lieuModal);
+            $entityManager->flush();
+
+            // Redirection ou autre traitement après l'enregistrement réussi
+
+            // Exemple de redirection
+            return $this->redirectToRoute('sortie_create');
+        }
+
+
         return $this->render('sortie/create.html.twig', [
             'sortieForm' => $sortieForm->createView(),
             'sortie' => $sortie,
@@ -125,7 +143,8 @@ class SortieController extends AbstractController
             'error' => $error,
             "lieu" => $lieu,
             "lieuForm" => $lieuForm->createView(),
-            "ville" => $ville
+            "ville" => $ville,
+            'lieuModalForm' => $lieuModalForm->createView()
 
         ]);
     }
@@ -159,9 +178,10 @@ class SortieController extends AbstractController
 
         $error = "";
         $lieuForm = $this->createForm(LieuType::class);
-
+        $lieuModalForm = $this->createForm(LieuModalFormType::class);
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
+
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             //Recuperation du choix si Modification simple ou Si Publication
@@ -183,7 +203,6 @@ class SortieController extends AbstractController
                 ];
             }
             if ($error == "") {
-
                 $sortie->setEtat($etat);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($sortie);
@@ -205,6 +224,7 @@ class SortieController extends AbstractController
             'sortieForm' => $sortieForm->createView(),
             'error' => $error,
             "lieuForm" => $lieuForm->createView(),
+            'lieuModalForm' => $lieuModalForm->createView(),
         ]);
 
     }
